@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface Userdao {
 
-    @Insert("insert into user(uuid, username, password, phone, mail, age, deleted, sex,school,imgurl,birthday) values(#{uuid}, #{username}, #{password}, #{phone}, #{mail}, #{age}, #{deleted},#{sex},#{school},#{imgurl},#{birthday})")
-    public int insertUser(User user);
+    @Insert("insert into users(id, username, password, gender, age, hometown, major, mbti, avatar_url, signature, telephone_number, birthday, mail, school, create_time, last_modified_time) values(#{id}, #{username}, #{password}, #{gender}, #{age}, #{hometown},#{major},#{mbti},#{avatar_url},#{signature}, #{telephone_number}, #{birthday}, #{mail}, #{school},#{create_time}, #{last_modified_time} )")
+    public void insertUser(User user);
 
 }
