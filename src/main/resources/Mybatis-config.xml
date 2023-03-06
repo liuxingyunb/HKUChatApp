@@ -23,6 +23,10 @@
 
     <mappers>
         <mapper class="com.example.chatapp.dao.Userdao"/>
+        <mapper class="com.example.chatapp.dao.Chat_groupdao"/>
+        <mapper class="com.example.chatapp.dao.Photo_walldao"/>
+        <mapper class="com.example.chatapp.dao.Group_chatdao"/>
+        <mapper class="com.example.chatapp.dao.Personal_chatdao"/>
     </mappers>
 
 </configuration>

@@ -5,9 +5,15 @@ import java.util.Date;
 public class Photo_wall {
 
     private int id;
-    private String user_id;
+    private int user_id;
     private String photo_url;
     private Date create_time;
+
+    public Photo_wall(int id, int user_id, String photo_url) {
+        this.id = id;
+        this.user_id = user_id;
+        this.photo_url = photo_url;
+    }
 
     public int getId() {
         return id;
@@ -17,11 +23,11 @@ public class Photo_wall {
         this.id = id;
     }
 
-    public String getUser_id() {
+    public int getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(String user_id) {
+    public void setUser_id(int user_id) {
         this.user_id = user_id;
     }
 
