@@ -6,12 +6,19 @@ public class Chat_group {
 
     private int id;
     private String name;
-    private String ownerId;
+    private int owner_id;
     private String members;
     private Date create_time;
     private Date last_active_time;
 
     public Chat_group(){}
+
+    public Chat_group(int id, String name, int owner_id, String members) {
+        this.id = id;
+        this.name = name;
+        this.owner_id = owner_id;
+        this.members = members;
+    }
 
     public int getId() {
         return id;
@@ -29,12 +36,12 @@ public class Chat_group {
         this.name = name;
     }
 
-    public String getOwnerId() {
-        return ownerId;
+    public int getOwnerId() {
+        return owner_id;
     }
 
-    public void setOwnerId(String ownerId) {
-        this.ownerId = ownerId;
+    public void setOwnerId(int owner_id) {
+        this.owner_id = owner_id;
     }
 
     public String getMembers() {
