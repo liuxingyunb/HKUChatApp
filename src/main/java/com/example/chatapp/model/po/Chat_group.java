@@ -13,8 +13,7 @@ public class Chat_group {
 
     public Chat_group(){}
 
-    public Chat_group(int id, String name, int owner_id, String members) {
-        this.id = id;
+    public Chat_group(String name, int owner_id, String members) {
         this.name = name;
         this.owner_id = owner_id;
         this.members = members;

@@ -12,8 +12,7 @@ public class Personal_chat {
 
     public Personal_chat() { }
 
-    public Personal_chat(int id, int sender_id, int receiver_id, String message_type, String content, Date send_time) {
-        this.id = id;
+    public Personal_chat(int sender_id, int receiver_id, String message_type, String content, Date send_time) {
         this.sender_id = sender_id;
         this.receiver_id = receiver_id;
         this.message_type = message_type;

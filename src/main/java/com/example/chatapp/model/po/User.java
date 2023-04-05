@@ -1,6 +1,8 @@
 package com.example.chatapp.model.po;
 
 
+import org.springframework.stereotype.Component;
+
 import java.util.Date;
 
 /**
@@ -32,14 +34,12 @@ public class User  {
 
     public User(){}
 
-    public User(int id, String username, String password) {
-        this.id = id;
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    public User(int id, String username, String password, String role, String gender, int age, String hometown, String major, String avatar_url, String signature, String telephone_number, String birthday, String mail, String school, Date create_time, Date last_modified_time) {
-        this.id = id;
+    public User(String username, String password, String role, String gender, int age, String hometown, String major, String avatar_url, String signature, String telephone_number, String birthday, String mail, String school, Date create_time, Date last_modified_time) {
         this.username = username;
         this.password = password;
         this.role = role;

@@ -9,8 +9,7 @@ public class Photo_wall {
     private String photo_url;
     private Date create_time;
 
-    public Photo_wall(int id, int user_id, String photo_url) {
-        this.id = id;
+    public Photo_wall(int user_id, String photo_url) {
         this.user_id = user_id;
         this.photo_url = photo_url;
     }

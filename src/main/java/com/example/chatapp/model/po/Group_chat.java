@@ -12,8 +12,7 @@ public class Group_chat {
 
     public Group_chat() {}
 
-    public Group_chat(int id, int sender_id, int group_id, String message_type, String content, Date send_time) {
-        this.id = id;
+    public Group_chat(int sender_id, int group_id, String message_type, String content, Date send_time) {
         this.sender_id = sender_id;
         this.group_id = group_id;
         this.message_type = message_type;

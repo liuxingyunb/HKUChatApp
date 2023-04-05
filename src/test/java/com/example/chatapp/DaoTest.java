@@ -7,6 +7,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DaoTest {
 
@@ -14,9 +16,9 @@ public class DaoTest {
     public void userinsertTest() {
         SqlSession sqlSession = MybatisUtilize.getSqlsession();
 
-        Userdao userDao = sqlSession.getMapper(Userdao.class);
+        UserDao userDao = sqlSession.getMapper(UserDao.class);
 
-        userDao.insertUser(new User(2,"lll", "123456"));
+        userDao.insertUser(new User("Liu", "123456"));
         sqlSession.commit();
         sqlSession.close();
     }
@@ -25,10 +27,11 @@ public class DaoTest {
     public void chat_group_insertTest() {
         SqlSession sqlSession = MybatisUtilize.getSqlsession();
 
-        Chat_groupdao chatGroupdao = sqlSession.getMapper(Chat_groupdao.class);
+        Chat_groupDao chatGroupdao = sqlSession.getMapper(Chat_groupDao.class);
 
-        Chat_group chatGroup=new Chat_group(1,"Chat",1,"1");
-        chatGroupdao.addchat_group(chatGroup);
+        Chat_group chatGroup=new Chat_group("Chat",1,"1");
+
+        chatGroupdao.addChat_group(chatGroup);
         sqlSession.commit();
         sqlSession.close();
     }
@@ -36,8 +39,8 @@ public class DaoTest {
     @Test
     public void photo_wall_insertTest() {
         SqlSession sqlSession = MybatisUtilize.getSqlsession();
-        Photo_walldao photoWalldao = sqlSession.getMapper(Photo_walldao.class);
-        photoWalldao.addphoto(new Photo_wall(1,1,"asdasd"));
+        Photo_wallDao photoWalldao = sqlSession.getMapper(Photo_wallDao.class);
+        photoWalldao.addPhoto(new Photo_wall(1,"asdasd"));
         sqlSession.commit();
         sqlSession.close();
     }
@@ -45,8 +48,8 @@ public class DaoTest {
     @Test
     public void group_chat_insertTest() {
         SqlSession sqlSession = MybatisUtilize.getSqlsession();
-        Group_chatdao groupChatdao = sqlSession.getMapper(Group_chatdao.class);
-        groupChatdao.addChat_group(new Group_chat(1,1,2,"text","abcd",new Date()));
+        Group_chatDao groupChatdao = sqlSession.getMapper(Group_chatDao.class);
+        groupChatdao.insertGroup_chat(new Group_chat(1,2,"text","abcd",new Date()));
         sqlSession.commit();
         sqlSession.close();
     }
@@ -54,10 +57,22 @@ public class DaoTest {
     @Test
     public void personal_chat_insertTest() {
         SqlSession sqlSession = MybatisUtilize.getSqlsession();
-        Personal_chatdao personalChatdao = sqlSession.getMapper(Personal_chatdao.class);
-       personalChatdao.addPersonal_chat(new Personal_chat(1,1,2,"image","",new Date()));
+        Personal_chatDao personalChatdao = sqlSession.getMapper(Personal_chatDao.class);
+       personalChatdao.addPersonal_chat(new Personal_chat(1,2,"image","",new Date()));
         sqlSession.commit();
         sqlSession.close();
     }
+    @Test
+    public void chat_group_updateTest() {
+        SqlSession sqlSession = MybatisUtilize.getSqlsession();
 
+        Chat_groupDao chatGroupdao = sqlSession.getMapper(Chat_groupDao.class);
+
+        Map<String, Object> m = new HashMap<String, Object>();
+        m.put("name","leo");
+        m.put("id",4);
+        chatGroupdao.updateChat_group(m);
+        sqlSession.commit();
+        sqlSession.close();
+    }
 }
