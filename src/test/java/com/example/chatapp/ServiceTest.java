@@ -7,12 +7,25 @@ import com.example.chatapp.service.impl.UserServiceImpl;
 import com.example.chatapp.utilize.MybatisUtilize;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.HashMap;
 import java.util.Map;
-
+@SpringBootApplication
+@ComponentScan("com.example.chatapp.*")
+@ServletComponentScan("com.example.chatapp.*")
 public class ServiceTest {
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private UserDao userDao;
     @Test
     public void test(){
 //        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
@@ -21,12 +34,9 @@ public class ServiceTest {
 //
 //        // 获取 UserService 组件并使用
 //        UserService userService = context.getBean(UserService.class);
-        SqlSession sqlSession = MybatisUtilize.getSqlsession();
-        UserDao userdao = sqlSession.getMapper(UserDao.class);
-        UserService userService = new UserServiceImpl(sqlSession,userdao);
         Map<String,Object> map = new HashMap<>();
-        map.put("password",123);
         map.put("id",2);
-        userService.updateUser(map);
+        map.put("password","1234");
+        userDao.updateUser(map);
     }
 }

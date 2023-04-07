@@ -1,6 +1,7 @@
 package com.example.chatapp.service;
 
 import com.example.chatapp.model.po.User;
+import org.springframework.stereotype.Service;
 
 import java.util.Map;
 

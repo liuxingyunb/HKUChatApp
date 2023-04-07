@@ -14,16 +14,10 @@ import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private final SqlSession sqlSession;
-    private final UserDao userDao;
 
     @Autowired
-    public UserServiceImpl(SqlSession sqlSession, UserDao userDao) {
-        this.sqlSession = sqlSession;
-        this.userDao = userDao;
-    }
-//    @Autowired
-//    private UserDao userDao;
+    private UserDao userDao;
+
     @Override
     public User getUserById(int id) {
         return userDao.selectUserById(id);
@@ -42,10 +36,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(int id) {
         userDao.deleteUserById(id);
-    }
-    @PreDestroy
-    public void cleanup() {
-        sqlSession.commit();
-        sqlSession.close();
     }
 }
