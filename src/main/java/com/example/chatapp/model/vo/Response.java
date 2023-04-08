@@ -1,4 +1,4 @@
-package com.bupt.model.vo;
+package com.example.chatapp.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

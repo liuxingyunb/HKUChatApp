@@ -5,6 +5,7 @@ import com.example.chatapp.model.po.*;
 import com.example.chatapp.utilize.MybatisUtilize;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -12,15 +13,11 @@ import java.util.Map;
 
 public class DaoTest {
 
+    @Autowired
+    UserDao userDao;
     @Test
     public void userinsertTest() {
-        SqlSession sqlSession = MybatisUtilize.getSqlsession();
-
-        UserDao userDao = sqlSession.getMapper(UserDao.class);
-
         userDao.insertUser(new User("Liu", "123456"));
-        sqlSession.commit();
-        sqlSession.close();
     }
 
     @Test

@@ -18,6 +18,8 @@ public interface UserDao {
     void deleteUserById(int user_id);
     @Select("SELECT * FROM users WHERE id = #{user_id}")
     User selectUserById(int user_id);
+    @Select("SELECT * FROM users WHERE username = #{user_name}")
+    User selectUserByUsername(String user_name);
     public void updateUser(Map<String, Object> map);
 
 

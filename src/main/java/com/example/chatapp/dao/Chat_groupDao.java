@@ -18,7 +18,4 @@ public interface Chat_groupDao {
     public Chat_group selectChat_groupById(int id);
     public void updateChat_group(Map<String, Object> map);
 
-
-
-
 }
