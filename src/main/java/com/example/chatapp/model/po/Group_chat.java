@@ -6,7 +6,7 @@ public class Group_chat {
     int id;
     int sender_id;
     int group_id;
-    String message_type;
+    String message_type;//text,video,image,system
     String content;
     Date send_time;
 

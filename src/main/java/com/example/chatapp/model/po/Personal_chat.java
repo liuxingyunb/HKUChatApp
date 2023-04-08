@@ -6,9 +6,11 @@ public class Personal_chat {
     int id;
     int sender_id;
     int receiver_id;
-    String message_type;
+    String message_type;//text,video,image,system
     String content;
     Date send_time;
+
+
 
     public Personal_chat() { }
 
