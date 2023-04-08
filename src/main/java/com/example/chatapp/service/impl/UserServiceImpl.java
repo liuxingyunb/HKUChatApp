@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PreDestroy;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -40,5 +41,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByUsername(String user_name) {
         return userDao.selectUserByUsername(user_name);
+    }
+
+    @Override
+    public List<User> getUser(Map<String, Object> map) {
+        return userDao.selectUser(map);
     }
 }

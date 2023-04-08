@@ -42,8 +42,7 @@ public class TestController {
         User u = userService.getUserById(2);
         System.out.println(u);
         Map<String,Object> map = new HashMap<>();
-        map.put("id",2);
-        map.put("password","1234");
+        map.put("name","lll");
         userService.updateUser(map);
         return Response.ok("fuck",user);
     }
@@ -97,6 +96,13 @@ public class TestController {
         map.put("photo_url","D:\\Leo123");
         photo_wallService.updatePhoto_wall(map);
         return Response.ok("fuck",photo_wall);
+    }
+    @PostMapping("/pin6")
+    public Response pin6(String name) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("name",name);
+        User u = userService.getUser(map).get(0);
+        return Response.ok("fuck",u);
     }
     @GetMapping("/db")
     public Response db() {
