@@ -5,6 +5,7 @@ import com.example.chatapp.model.po.Personal_chat;
 import com.example.chatapp.model.po.User;
 import com.example.chatapp.service.Personal_chatService;
 import com.example.chatapp.service.UserService;
+import com.example.chatapp.utils.MultiFile;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,11 @@ class ChatAppApplicationTests {
     void contextLoads() {
     }
 
+    @Test
+    void fileTest() throws Exception{
+        String text = "??hduiladuiahuidnasiu;dni;uahdui;hasiudh??";
+        System.out.println(MultiFile.fileStore(text.getBytes(),"test.txt"));
+    }
 //    @Test
 //    void UserTest() {
 //        //User user = new User("test1","12313312");
