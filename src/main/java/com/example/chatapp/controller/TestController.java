@@ -42,8 +42,7 @@ public class TestController {
         User u = userService.getUserById(2);
         System.out.println(u);
         Map<String,Object> map = new HashMap<>();
-        map.put("id",2);
-        map.put("password","1234");
+        map.put("name","lll");
         userService.updateUser(map);
         return Response.ok("fuck",user);
     }
@@ -99,19 +98,11 @@ public class TestController {
         return Response.ok("fuck",photo_wall);
     }
     @PostMapping("/pin6")
-    public Response pin6(@RequestParam int id, @RequestParam String username) {
-        userService.addUserToUser(id,username);
-        return Response.ok("fuck",userService.getUserById(id));
-    }
-    @PostMapping("/pin7")
-    public Response pin7(@RequestParam int id, @RequestParam String username) {
-        userService.removeUserFromUser(id,username);
-        return Response.ok("fuck",userService.getUserById(id));
-    }
-    @PostMapping("/pin8")
-    public Response pin8(@RequestParam int id, @RequestParam String username) {
-        chat_groupService.removeUserFromChatGroup(id,username);
-        return Response.ok("fuck",chat_groupService.getChat_groupById(id));
+    public Response pin6(String name) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("name",name);
+        User u = userService.getUser(map).get(0);
+        return Response.ok("fuck",u);
     }
     @GetMapping("/db")
     public Response db() {

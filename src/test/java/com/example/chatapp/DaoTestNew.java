@@ -2,14 +2,10 @@ package com.example.chatapp;
 
 import com.example.chatapp.dao.*;
 import com.example.chatapp.model.po.*;
-import com.example.chatapp.service.UserService;
-import com.example.chatapp.service.impl.UserServiceImpl;
 import com.example.chatapp.utilize.MybatisUtilize;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Rule;
 import org.junit.jupiter.api.*;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import static org.junit.Assert.*;
 
 import java.util.Date;
@@ -18,10 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 public class DaoTestNew {
-
-    @Autowired
-    UserService userService;
-
     @Test
     public void TestInsertDao() {
         SqlSession sqlSession = MybatisUtilize.getSqlsession();
@@ -142,12 +134,5 @@ public class DaoTestNew {
 
         sqlSession.commit();
         sqlSession.close();
-    }
-
-    @Test
-    public void TestUser(){
-
-        User user=new User("J1", "123456");
-        userService.addUser(user);
     }
 }

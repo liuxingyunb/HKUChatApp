@@ -1,9 +1,7 @@
 package com.example.chatapp.controller;
 
-import com.example.chatapp.dao.UserDao;
 import com.example.chatapp.model.po.User;
 import com.example.chatapp.service.UserService;
-import com.example.chatapp.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,5 +24,16 @@ public class LoginController {
         }
         else
             return Response.error("User name has been registered!");
+    }
+
+    @PostMapping("/go")
+    public Response go(@RequestBody User user){
+        if(userService.getUserByUsername(user.getUsername())==null) {
+            return Response.error("No such user!");
+        }
+        else if(userService.getUserByUsername(user.getUsername()).getPassword().equals(user.getPassword()))
+            return Response.ok("Login successfully!", userService.getUserByUsername(user.getUsername()));
+        else
+            return Response.error("Wrong password");
     }
 }
