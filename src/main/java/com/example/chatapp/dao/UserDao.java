@@ -20,7 +20,8 @@ public interface UserDao {
     User selectUserById(int user_id);
     @Select("SELECT * FROM users WHERE username = #{user_name}")
     User selectUserByUsername(String user_name);
+    public List<User> selectUser(Map<String,Object> map);
     public void updateUser(Map<String, Object> map);
-
-
+    void addUserToUser(Map<String, Object> map);
+    void removeUserFromUser(Map<String, Object> map);
 }

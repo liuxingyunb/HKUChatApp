@@ -15,6 +15,21 @@
         </set>
         WHERE id = #{id}
     </update>
+    <update id="addUserToGroup" parameterType="map">
+        UPDATE chat_groups
+            <set>
+                members = CONCAT(members, ';', #{username}),
+            </set>
+            WHERE id = #{groupId}
+        </update>
+
+    <update id="removeUserFromGroup" parameterType="java.util.Map">
+        UPDATE chat_groups
+        <set>
+            members = REPLACE(members, CONCAT(';', #{username}), ''),
+        </set>
+        WHERE id = #{groupId}
+    </update>
 
 
 </mapper>

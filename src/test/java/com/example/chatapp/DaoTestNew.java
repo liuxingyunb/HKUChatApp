@@ -122,10 +122,14 @@ public class DaoTestNew {
 //        personalChatDao.updatePersonal_chat(m);
 
         Chat_groupDao chatGroupdao = sqlSession.getMapper(Chat_groupDao.class);
+        UserDao userDao = sqlSession.getMapper(UserDao.class);
         Map<String, Object> m = new HashMap<>();
-        m.put("members","100");
-        m.put("id",4);
-        chatGroupdao.updateChat_group(m);
+
+        m.put("username","Son");
+        m.put("id",2);
+//        m.put("members","liu");
+//        chatGroupdao.addUserToGroup(m);
+        userDao.addUserToUser(m);
 
 
 //        Group_chatDao groupChatdao = sqlSession.getMapper(Group_chatDao.class);

@@ -31,7 +31,7 @@ public class User  {
     private Date create_time;
     private Date last_modified_time;
     private String mbti;
-
+    private String members;
     public User(){}
 
     public User(String username, String password) {
@@ -55,6 +55,7 @@ public class User  {
         this.school = school;
         this.create_time = create_time;
         this.last_modified_time = last_modified_time;
+        this.members = "";
     }
 
     public String getRole() {
@@ -161,5 +162,9 @@ public class User  {
                 ", create_time=" + create_time +
                 ", last_modified_time=" + last_modified_time +
                 '}';
+    }
+
+    public String getMembers() {
+        return this.members;
     }
 }

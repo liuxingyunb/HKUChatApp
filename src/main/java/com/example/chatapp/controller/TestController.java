@@ -98,6 +98,16 @@ public class TestController {
         photo_wallService.updatePhoto_wall(map);
         return Response.ok("fuck",photo_wall);
     }
+    @PostMapping("/pin6")
+    public Response pin6(@RequestParam int id, @RequestParam String username) {
+        userService.addUserToUser(id,username);
+        return Response.ok("fuck",userService.getUserById(id));
+    }
+    @PostMapping("/pin7")
+    public Response pin7(@RequestParam int id, @RequestParam String username) {
+        userService.removeUserFromUser(id,username);
+        return Response.ok("fuck",userService.getUserById(id));
+    }
     @GetMapping("/db")
     public Response db() {
         return Response.ok();

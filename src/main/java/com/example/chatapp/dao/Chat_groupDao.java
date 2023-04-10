@@ -17,5 +17,6 @@ public interface Chat_groupDao {
     @Select("SELECT * FROM chat_groups where id = #{id}")
     public Chat_group selectChat_groupById(int id);
     public void updateChat_group(Map<String, Object> map);
-
+    public void addUserToGroup(Map<String, Object> map);
+    public void removeUserFromGroup(Map<String, Object> map);
 }
