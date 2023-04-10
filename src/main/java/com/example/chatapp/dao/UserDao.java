@@ -21,6 +21,7 @@ public interface UserDao {
     @Select("SELECT * FROM users WHERE username = #{user_name}")
     User selectUserByUsername(String user_name);
     public void updateUser(Map<String, Object> map);
+    public List<User> selectUser(Map<String,Object> map);
 
 
 }

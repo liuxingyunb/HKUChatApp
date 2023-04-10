@@ -1,5 +1,6 @@
 package com.example.chatapp.websocket;
 
+
 import com.alibaba.fastjson2.JSON;
 import com.example.chatapp.model.po.Group_chat;
 import com.example.chatapp.model.po.Personal_chat;
@@ -21,19 +22,29 @@ import java.util.concurrent.Future;
 
 @ServerEndpoint("/chat/{id}")
 @Component
-public class Server {
+public class Server {//autowired失效
 
-    @Autowired
-    Personal_chatService personal_chatService;
 
-    @Autowired
-    Group_chatService group_chatService;
+    public static Personal_chatService personal_chatService;
+
+    public static Group_chatService group_chatService;
 
     public static ConcurrentHashMap<String, Server> WEBSOCKET_MAP = new ConcurrentHashMap<>();//存放所有用户
 
     private Session session;//当前session
 
     private String userId;//当前用户
+
+    @Autowired
+    public void setPersonal_chatService(Personal_chatService personal_chatService) {
+        Server.personal_chatService = personal_chatService;
+    }
+
+    @Autowired
+    public void setGroup_chatService(Group_chatService Group_chatService) {
+        Server.group_chatService = Group_chatService;
+    }
+
 
     @OnOpen
     public void OnOpen(Session session, @PathParam("id") String id) throws Exception{
@@ -42,10 +53,12 @@ public class Server {
         this.session = session;
         Server server = WEBSOCKET_MAP.get(id);
         if (server == null) {
-            WEBSOCKET_MAP.put(id,server);
+            WEBSOCKET_MAP.put(id,this);
         } else {
+            System.out.println("multiple!!!!!");
             session.close();
         }
+
     }
 
     @OnMessage
@@ -63,9 +76,14 @@ public class Server {
                 group_chatService.addGroup_chat(tmpGroupChat);
                 //给群聊发的话就给该群聊的所有人发送包括自己即可
             } else {
+                System.out.println(cur.getFromId());
+//                System.out.println(WEBSOCKET_MAP.get(String.valueOf(cur.getFromId())));
+//                System.out.println(WEBSOCKET_MAP.get(String.valueOf(cur.getToId())));
                 Personal_chat tmpPersonalChat = new Personal_chat(cur.getFromId(),cur.getToId(),"text",cur.getContent(),date);
                 personal_chatService.addPersonal_chat(tmpPersonalChat);
-                sendText(String.valueOf(fromUserId),cur);
+                Future<Void> tmpf = sendText(String.valueOf(toUserId),cur);
+                while(!tmpf.isDone());
+                System.out.println("success");
             }
         } else {//system,video/image等情况
 
