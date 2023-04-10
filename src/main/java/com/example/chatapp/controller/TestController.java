@@ -108,6 +108,11 @@ public class TestController {
         userService.removeUserFromUser(id,username);
         return Response.ok("fuck",userService.getUserById(id));
     }
+    @PostMapping("/pin8")
+    public Response pin8(@RequestParam int id, @RequestParam String username) {
+        chat_groupService.removeUserFromChatGroup(id,username);
+        return Response.ok("fuck",chat_groupService.getChat_groupById(id));
+    }
     @GetMapping("/db")
     public Response db() {
         return Response.ok();
