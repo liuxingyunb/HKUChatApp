@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -109,5 +111,17 @@ public class Chat_groupServiceImpl implements Chat_groupService {
         m.put("groupId",groupId);
         m.put("username",username);
         chat_groupDao.addUserToGroup(m);
+    }
+
+    @Override
+    public List<User> selectMembers(int id) {
+        String members = chat_groupDao.selectChat_groupById(id).getMembers();
+        members = members.replaceAll(";$", "");
+        String[] names = members.split(";");
+        List<User> memberList = new LinkedList<>();
+        for (String name : names){
+            memberList.add(userDao.selectUserByUsername(name));
+        }
+        return memberList;
     }
 }

@@ -7,6 +7,7 @@ import com.example.chatapp.exception.UserNotInChatGroupException;
 import com.example.chatapp.model.po.Chat_group;
 import com.example.chatapp.model.po.User;
 
+import java.util.List;
 import java.util.Map;
 
 public interface Chat_groupService {
@@ -16,4 +17,5 @@ public interface Chat_groupService {
     void deleteChat_group(int id);
     void addUserToChatGroup(int groupId, String username) throws UserNotFoundException, ChatGroupNotFoundException, UserAlreadyExistsException;
     public void removeUserFromChatGroup(int groupId, String username) throws UserNotFoundException, ChatGroupNotFoundException, UserNotInChatGroupException;
+    public List<User> selectMembers(int id);
 }
