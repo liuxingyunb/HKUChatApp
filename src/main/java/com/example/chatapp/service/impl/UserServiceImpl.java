@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PreDestroy;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -116,5 +117,17 @@ public class UserServiceImpl implements UserService {
         m.put("id",id);
         m.put("username",username);
         userDao.removeUserFromUser(m);
+    }
+
+    @Override
+    public List<User> selectFriends(int id) {
+        String members = userDao.selectUserById(id).getMembers();
+        members = members.replaceAll(";$", "");
+        String[] names = members.split(";");
+        List<User> friendList = new LinkedList<>();
+        for (String name : names){
+            friendList.add(userDao.selectUserByUsername(name));
+        }
+        return friendList;
     }
 }

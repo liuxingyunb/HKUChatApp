@@ -19,4 +19,5 @@ public interface UserService {
     List<User> getUser(Map<String, Object> map);
     void addUserToUser(int id, String username) throws UserNotFoundException, UserAlreadyExistsException;
     public void removeUserFromUser(int id, String username) throws UserNotFoundException, UserNotInChatGroupException;
+    public List<User> selectFriends(int id);
 }

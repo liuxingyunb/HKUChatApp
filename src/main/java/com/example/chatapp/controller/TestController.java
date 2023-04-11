@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -103,6 +104,11 @@ public class TestController {
         map.put("name",name);
         User u = userService.getUser(map).get(0);
         return Response.ok("fuck",u);
+    }
+    @PostMapping("/pin7")
+    public Response pin7(@RequestParam int id) {
+        List<User> l = userService.selectFriends(id);
+        return Response.ok("fuck",l);
     }
     @GetMapping("/db")
     public Response db() {
