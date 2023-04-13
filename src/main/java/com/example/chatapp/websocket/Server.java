@@ -76,9 +76,6 @@ public class Server {//autowired失效
                 group_chatService.addGroup_chat(tmpGroupChat);
                 //给群聊发的话就给该群聊的所有人发送包括自己即可
             } else {
-                System.out.println(cur.getFromId());
-//                System.out.println(WEBSOCKET_MAP.get(String.valueOf(cur.getFromId())));
-//                System.out.println(WEBSOCKET_MAP.get(String.valueOf(cur.getToId())));
                 Personal_chat tmpPersonalChat = new Personal_chat(cur.getFromId(),cur.getToId(),"text",cur.getContent(),date);
                 personal_chatService.addPersonal_chat(tmpPersonalChat);
                 Future<Void> tmpf = sendText(String.valueOf(toUserId),cur);
