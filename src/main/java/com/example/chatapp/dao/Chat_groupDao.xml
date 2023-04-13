@@ -30,6 +30,22 @@
         </set>
         WHERE id = #{groupId}
     </update>
-
+    <select id="selectChatGroup" parameterType="map" resultType="com.example.chatapp.model.po.Chat_group">
+        SELECT *
+        FROM chat_groups
+        WHERE 1=1
+        <if test="id != null">
+            AND id = #{id}
+        </if>
+        <if test="name != null">
+            AND name = #{name}
+        </if>
+        <if test="owner_id != null">
+            AND owner_id = #{owner_id}
+        </if>
+        <if test="members != null">
+            AND binary members like concat('%', #{members}, '%')
+        </if>
+    </select>
 
 </mapper>

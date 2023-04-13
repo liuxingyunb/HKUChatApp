@@ -1,5 +1,6 @@
 package com.example.chatapp.service.impl;
 
+import com.example.chatapp.dao.Chat_groupDao;
 import com.example.chatapp.dao.UserDao;
 import com.example.chatapp.exception.ChatGroupNotFoundException;
 import com.example.chatapp.exception.UserAlreadyExistsException;
@@ -25,6 +26,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private Chat_groupDao chat_groupDao;
 
     @Override
     public User getUserById(int id) {
@@ -129,5 +132,22 @@ public class UserServiceImpl implements UserService {
             friendList.add(userDao.selectUserByUsername(name));
         }
         return friendList;
+    }
+
+    @Override
+    public List<Chat_group> selectChatGroupsContainUser(String username) {
+        User user = userDao.selectUserByUsername(username);
+        if(user==null){
+            throw new RuntimeException("User not found");
+        }
+        Map<String,Object> map = new HashMap<>();
+        map.put("members",username);
+        return chat_groupDao.selectChatGroup(map);
+    }
+
+    @Override
+    public List<User> selectAllUsers() {
+        Map<String,Object> map = new HashMap<>();
+        return userDao.selectUser(map);
     }
 }

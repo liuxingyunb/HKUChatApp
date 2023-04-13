@@ -135,4 +135,15 @@ public class DaoTestNew {
         sqlSession.commit();
         sqlSession.close();
     }
+    @Test
+    public void testGroup(){
+        SqlSession sqlSession = MybatisUtilize.getSqlsession();
+        Chat_groupDao chatGroupdao = sqlSession.getMapper(Chat_groupDao.class);
+        Map<String, Object> m = new HashMap<>();
+        m.put("members","Liu");
+        List<Chat_group> l = chatGroupdao.selectChatGroup(m);
+        assertEquals(l.get(0).getId(),8);
+        assertEquals(l.size(),1);
+
+    }
 }

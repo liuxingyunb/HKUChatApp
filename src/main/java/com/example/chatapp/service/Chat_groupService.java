@@ -18,4 +18,6 @@ public interface Chat_groupService {
     void addUserToChatGroup(int groupId, String username) throws UserNotFoundException, ChatGroupNotFoundException, UserAlreadyExistsException;
     public void removeUserFromChatGroup(int groupId, String username) throws UserNotFoundException, ChatGroupNotFoundException, UserNotInChatGroupException;
     public List<User> selectMembers(int id);
+    public List<Chat_group> selectAllGroups();
+
 }

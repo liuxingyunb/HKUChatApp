@@ -124,4 +124,10 @@ public class Chat_groupServiceImpl implements Chat_groupService {
         }
         return memberList;
     }
+
+    @Override
+    public List<Chat_group> selectAllGroups() {
+        Map<String,Object> map = new HashMap<>();
+        return chat_groupDao.selectChatGroup(map);
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.chatapp.dao;
 
 import com.example.chatapp.model.po.Chat_group;
+import com.example.chatapp.model.po.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,4 +20,5 @@ public interface Chat_groupDao {
     public void updateChat_group(Map<String, Object> map);
     public void addUserToGroup(Map<String, Object> map);
     public void removeUserFromGroup(Map<String, Object> map);
+    public List<Chat_group> selectChatGroup(Map<String,Object> map);
 }

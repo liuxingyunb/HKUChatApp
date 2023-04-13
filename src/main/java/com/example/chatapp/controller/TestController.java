@@ -110,6 +110,21 @@ public class TestController {
         List<User> l = chat_groupService.selectMembers(id);
         return Response.ok("fuck",l);
     }
+    @PostMapping("/pin8")
+    public Response pin8(@RequestParam String username) {
+        List<Chat_group> l = userService.selectChatGroupsContainUser(username);
+        return Response.ok("fuck",l);
+    }
+    @PostMapping("/pin9")
+    public Response pin9() {
+        List<User> l = userService.selectAllUsers();
+        return Response.ok("fuck",l);
+    }
+    @PostMapping("/pin10")
+    public Response pin10() {
+        List<Chat_group> l = chat_groupService.selectAllGroups();
+        return Response.ok("fuck",l);
+    }
     @GetMapping("/db")
     public Response db() {
         return Response.ok();
