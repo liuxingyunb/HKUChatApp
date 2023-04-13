@@ -11,6 +11,8 @@ public class Chat_group {
     private Date create_time;
     private Date last_active_time;
 
+    /**差一个标签：例如历史，文化，汽车，数学，物理等等**/
+
     public Chat_group(){}
 
     public Chat_group(String name, int owner_id, String members) {

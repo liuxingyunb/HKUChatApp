@@ -32,6 +32,9 @@ public class User  {
     private Date last_modified_time;
     private String mbti;
     private String members;
+
+    /**差一个标签：例如历史，文化，汽车，数学，物理等等**/
+
     public User(){}
 
     public User(String username, String password) {
