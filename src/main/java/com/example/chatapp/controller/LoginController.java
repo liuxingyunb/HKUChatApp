@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.chatapp.model.vo.Response;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/login")
 public class LoginController {
@@ -31,8 +35,12 @@ public class LoginController {
         if(userService.getUserByUsername(user.getUsername())==null) {
             return Response.error("No such user!");
         }
-        else if(userService.getUserByUsername(user.getUsername()).getPassword().equals(user.getPassword()))
-            return Response.ok("Login successfully!", userService.getUserByUsername(user.getUsername()));
+        else if(userService.getUserByUsername(user.getUsername()).getPassword().equals(user.getPassword())) {
+            List<User> list=new LinkedList<>();
+            list.add(userService.getUserByUsername(user.getUsername()));
+            list.addAll(userService.selectFriends(userService.getUserByUsername(user.getUsername()).getId()));
+            return Response.ok("Login successfully!", list);
+        }
         else
             return Response.error("Wrong password");
     }

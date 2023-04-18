@@ -2,6 +2,7 @@ package com.example.chatapp;
 
 import com.example.chatapp.dao.*;
 import com.example.chatapp.model.po.*;
+import com.example.chatapp.service.UserService;
 import com.example.chatapp.utilize.MybatisUtilize;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Rule;

@@ -122,7 +122,8 @@ public class TestController {
     }
     @PostMapping("/pin10")
     public Response pin10() {
-        List<Chat_group> l = chat_groupService.selectAllGroups();
+        //List<Chat_group> l = chat_groupService.selectAllGroups();
+        List<User> l=userService.selectFriends(11);
         return Response.ok("fuck",l);
     }
     @GetMapping("/db")

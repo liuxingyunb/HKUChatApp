@@ -25,14 +25,11 @@ class ChatAppApplicationTests {
     @Autowired
     Personal_chatService personal_chatService;
 
-    @Test
-    void contextLoads() {
-    }
 
     @Test
-    void fileTest() throws Exception{
-        String text = "??hduiladuiahuidnasiu;dni;uahdui;hasiudh??";
-        System.out.println(MultiFile.fileStore(text.getBytes(),"test.txt"));
+    void friend(){
+
+        System.out.println(userService.selectFriends(11));
     }
 //    @Test
 //    void UserTest() {
