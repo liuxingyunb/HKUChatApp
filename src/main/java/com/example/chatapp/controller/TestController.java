@@ -123,7 +123,7 @@ public class TestController {
     @PostMapping("/pin10")
     public Response pin10() {
         //List<Chat_group> l = chat_groupService.selectAllGroups();
-        List<User> l=userService.selectFriends(11);
+        List<User> l=userService.selectFriends(2);
         return Response.ok("fuck",l);
     }
     @GetMapping("/db")

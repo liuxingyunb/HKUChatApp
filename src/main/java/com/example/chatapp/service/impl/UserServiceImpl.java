@@ -125,6 +125,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> selectFriends(int id) {
         String members = userDao.selectUserById(id).getMembers();
+        if(members==null)
+            return null;
         members = members.replaceAll(";$", "");
         String[] names = members.split(";");
         List<User> friendList = new LinkedList<>();

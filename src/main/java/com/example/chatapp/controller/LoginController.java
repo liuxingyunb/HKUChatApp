@@ -38,7 +38,8 @@ public class LoginController {
         else if(userService.getUserByUsername(user.getUsername()).getPassword().equals(user.getPassword())) {
             List<User> list=new LinkedList<>();
             list.add(userService.getUserByUsername(user.getUsername()));
-            list.addAll(userService.selectFriends(userService.getUserByUsername(user.getUsername()).getId()));
+            if(userService.selectFriends(userService.getUserByUsername(user.getUsername()).getId())!=null)
+                list.addAll(userService.selectFriends(userService.getUserByUsername(user.getUsername()).getId()));
             return Response.ok("Login successfully!", list);
         }
         else
