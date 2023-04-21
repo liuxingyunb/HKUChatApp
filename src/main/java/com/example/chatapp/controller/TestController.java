@@ -39,12 +39,6 @@ public class TestController {
     @PostMapping("/pin")
     public Response pin(@RequestBody User user) {
         userService.addUser(user);
-        userService.deleteUser(18);
-        User u = userService.getUserById(2);
-        System.out.println(u);
-        Map<String,Object> map = new HashMap<>();
-        map.put("name","lll");
-        userService.updateUser(map);
         return Response.ok("fuck",user);
     }
     @PostMapping("/pin2")
@@ -124,6 +118,11 @@ public class TestController {
     public Response pin10() {
         //List<Chat_group> l = chat_groupService.selectAllGroups();
         List<User> l=userService.selectFriends(2);
+        return Response.ok("fuck",l);
+    }
+    @PostMapping("/pin11")
+    public Response pin11() {
+        List<User> l = userService.selectFriends(2);
         return Response.ok("fuck",l);
     }
     @GetMapping("/db")

@@ -79,8 +79,13 @@ public class UserServiceImpl implements UserService {
         }
 
         // 检查用户是否已经存在于群组中
-        if (user2.getMembers() != null && user2.getMembers().contains(username)) {
-            throw new UserAlreadyExistsException("User already exists in chat group: " + username);
+        if (user2.getMembers() != null ) {
+            boolean flag = true;
+            String[] tmp = user2.getMembers().split(";");
+            for(String i: tmp){
+                if(i.equals(username))flag=false;
+            }
+            if(!flag)throw new UserAlreadyExistsException("User already exists in chat group: " + username);
         }
         // 将用户添加到群组中
         Map<String,Object> m = new HashMap<>();
