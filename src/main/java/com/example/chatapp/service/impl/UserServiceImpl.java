@@ -192,8 +192,8 @@ public void addFriendToUser(int userId, String friendName)
         // 将用户添加到用户列表中
 
         String members = userDao.selectUserById(userId).getMembers();
-
-        members += friendName + ';';
+        if(members == null) members = friendName + ';';
+        else members += friendName + ';';
         Map<String,Object> m = new HashMap<>();
         m.put("id",userId);
         m.put("members",members);

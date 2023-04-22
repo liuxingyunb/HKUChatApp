@@ -112,7 +112,7 @@ public class TestController {
     @PostMapping("/pin9")
     public Response pin9(@RequestParam int id, @RequestParam String username) {
 //        chat_groupService.addMemberToChatGroup(id,username);
-        userService.addUserToUser(id,username);
+        userService.addFriendToUser(id,username);
 //        userService.removeUserFromUser(id,username);
         User user = userService.getUserById(id);
         return Response.ok("fuck",user);
