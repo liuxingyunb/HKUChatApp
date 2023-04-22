@@ -4,6 +4,7 @@ import com.example.chatapp.model.po.User;
 import com.example.chatapp.model.vo.Response;
 import com.example.chatapp.service.ChatService;
 import com.example.chatapp.service.Chat_groupService;
+import com.example.chatapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,8 @@ import java.util.List;
 public class ChatConroller {
     @Autowired
     private ChatService chatService;
+    @Autowired
+    private UserService userService;
     @PostMapping("/test")
     public Response pin(@RequestBody User user) {
         List<User> users = chatService.recommendPersonal(user.getId(),3);

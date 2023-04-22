@@ -73,7 +73,6 @@ public class ChatServiceImpl implements ChatService {
                     ans.add(list.get(i));
                     map.get(userId).add(list.get(i).getId());
                     System.out.println(list.get(i).getId());
-                    userService.addUserToUser(userId,list.get(i).getUsername());
                 }
              }
              System.out.println("sguidgaushuiahcuixahiduhasauidxioadguiadjioajsido");
@@ -90,11 +89,14 @@ public class ChatServiceImpl implements ChatService {
                  if(ansIndex.contains(i)&&userId!=list.get(i).getId()) {
                      ans.add(list.get(i));
                      map.get(userId).add(list.get(i).getId());
-                     userService.addUserToUser(userId,list.get(i).getUsername());
                  }
              }
              map.get(userId).add(userId);
 
+         }
+         System.out.println(ans);
+         for(User user:ans) {
+             userService.addFriendToUser(userId,user.getUsername());
          }
          return ans;
     }

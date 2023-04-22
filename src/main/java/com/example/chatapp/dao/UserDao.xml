@@ -71,15 +71,18 @@
     <update id="addUserToUser" parameterType="map">
         UPDATE users
         <set>
-            members = CONCAT(members, ';', #{username})
+            members = CONCAT(members, '', CONCAT(#{username},'',';'))
         </set>
         WHERE id = #{id}
     </update>
 
+
+
+
     <update id="removeUserFromUser" parameterType="map">
         UPDATE users
         <set>
-            members = REPLACE(members, CONCAT(';', #{username}), '')
+            members = REPLACE(members, CONCAT(#{username},'',';'), '')
         </set>
         WHERE id = #{id}
     </update>

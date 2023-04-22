@@ -78,16 +78,16 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException ("User not found: " + id);
         }
 
-        // 检查用户是否已经存在于群组中
+        // 检查用户是否已经存在于用户列表中
         if (user2.getMembers() != null ) {
             boolean flag = true;
             String[] tmp = user2.getMembers().split(";");
             for(String i: tmp){
                 if(i.equals(username))flag=false;
             }
-            if(!flag)throw new UserAlreadyExistsException("User already exists in chat group: " + username);
+            if(!flag)throw new UserAlreadyExistsException("User already exists in user friend: " + username);
         }
-        // 将用户添加到群组中
+        // 将用户添加到用户列表中
         Map<String,Object> m = new HashMap<>();
         m.put("id",id);
         m.put("username",username);
@@ -156,5 +156,47 @@ public class UserServiceImpl implements UserService {
     public List<User> selectAllUsers() {
         Map<String,Object> map = new HashMap<>();
         return userDao.selectUser(map);
+    }
+
+    @Override
+/**
+ * 将用户添加到指定群组中的成员列表中
+ *
+ * @param userId  群组ID
+ * @param friendName 用户名
+ * @throws UserNotFoundException   如果用户不存在
+ * @throws UserAlreadyExistsException 如果用户已经存在于群组中
+ */
+public void addFriendToUser(int userId, String friendName)
+            throws UserNotFoundException, UserAlreadyExistsException {
+        // 检查用户是否存在
+        User friend = userDao.selectUserByUsername(friendName);
+        if (friend == null) {
+            throw new UserNotFoundException("Friend not found: " + friendName);
+        }
+
+        User user = userDao.selectUserById(userId);
+        if (user == null) {
+            throw new UserNotFoundException ("User not found: " + userId);
+        }
+
+        // 检查用户是否已经存在于用户列表中
+        if (user.getMembers() != null ) {
+            boolean flag = true;
+            String[] tmp = user.getMembers().split(";");
+            for(String i: tmp){
+                if(i.equals(friendName))flag=false;
+            }
+            if(!flag)throw new UserAlreadyExistsException("Friend already exists in user friend: " + friendName);
+        }
+        // 将用户添加到用户列表中
+
+        String members = userDao.selectUserById(userId).getMembers();
+
+        members += friendName + ';';
+        Map<String,Object> m = new HashMap<>();
+        m.put("id",userId);
+        m.put("members",members);
+        userDao.updateUser(m);
     }
 }

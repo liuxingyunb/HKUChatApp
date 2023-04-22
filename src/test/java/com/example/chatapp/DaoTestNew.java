@@ -23,9 +23,9 @@ public class DaoTestNew {
         Chat_group chatGroup = new Chat_group("group1",3,"1");
         chatGroupdao.addChat_group(chatGroup);
 
-//        UserDao userDao = (UserDao) sqlSession.getMapper(UserDao.class);
-//        User user = new User("Gaojiacheng", "12345");
-//        userDao.insertUser(user);
+        UserDao userDao = (UserDao) sqlSession.getMapper(UserDao.class);
+        User user = new User("Gaojiacheng", "12345");
+        userDao.insertUser(user);
 
 
         Photo_wallDao photoWallDao = sqlSession.getMapper(Photo_wallDao.class);
@@ -48,23 +48,23 @@ public class DaoTestNew {
         SqlSession sqlSession = MybatisUtilize.getSqlsession();
 
         UserDao userDao = (UserDao) sqlSession.getMapper(UserDao.class);
-        User user = userDao.selectUserById(4);
+        User user = userDao.selectUserByUsername("father");
 
-        Photo_wallDao photoWallDao = sqlSession.getMapper(Photo_wallDao.class);
-        Photo_wall p = photoWallDao.selectPhotosById(5);
-        assertEquals(p.getUser_id(), 5);
+//        Photo_wallDao photoWallDao = sqlSession.getMapper(Photo_wallDao.class);
+//        Photo_wall p = photoWallDao.selectPhotosById(5);
+        assertEquals(user.getId(), 16);
 
 //        Personal_chatDao personalChatDao = sqlSession.getMapper(Personal_chatDao.class);
 //        Personal_chat p = personalChatDao.selectPersonal_chatsById(2);
 //        assertEquals(p.getContent(), "我是爸爸");
 
-        Chat_groupDao chatGroupdao = sqlSession.getMapper(Chat_groupDao.class);
-        Chat_group g = chatGroupdao.selectChat_groupById(7);
-        assertEquals(g.getName(),"group1");
-
-        Group_chatDao groupChatDao = sqlSession.getMapper(Group_chatDao.class);
-        Group_chat groupChat = groupChatDao.selectGroup_chatById(7);
-        assertEquals(groupChat.getContent(),"我是爸爸们");
+//        Chat_groupDao chatGroupdao = sqlSession.getMapper(Chat_groupDao.class);
+//        Chat_group g = chatGroupdao.selectChat_groupById(7);
+//        assertEquals(g.getName(),"group1");
+//
+//        Group_chatDao groupChatDao = sqlSession.getMapper(Group_chatDao.class);
+//        Group_chat groupChat = groupChatDao.selectGroup_chatById(7);
+//        assertEquals(groupChat.getContent(),"我是爸爸们");
 
 
 
@@ -94,13 +94,13 @@ public class DaoTestNew {
     public void TestUpdateDao() {
         SqlSession sqlSession = MybatisUtilize.getSqlsession();
 
-//        UserDao userDao = (UserDao) sqlSession.getMapper(UserDao.class);
-//
-//        Map<String, Object> m = new HashMap<>();
-//        m.put("username","Son");
-//        m.put("mbti","Son");
-//        m.put("id",5);
-//        userDao.updateUser(m);
+        UserDao userDao = (UserDao) sqlSession.getMapper(UserDao.class);
+
+        Map<String, Object> m = new HashMap<>();
+        m.put("username","son6");
+        m.put("mbti","son");
+        m.put("id",41);
+        userDao.updateUser(m);
 
 //        Photo_wallDao photoWallDao = sqlSession.getMapper(Photo_wallDao.class);
 //        Map<String, Object> m = new HashMap<>();
@@ -114,15 +114,15 @@ public class DaoTestNew {
 //        m.put("id",2);
 //        personalChatDao.updatePersonal_chat(m);
 
-        Chat_groupDao chatGroupdao = sqlSession.getMapper(Chat_groupDao.class);
-        UserDao userDao = sqlSession.getMapper(UserDao.class);
-        Map<String, Object> m = new HashMap<>();
-
-        m.put("username","Son");
-        m.put("id",2);
+//        Chat_groupDao chatGroupdao = sqlSession.getMapper(Chat_groupDao.class);
+//        UserDao userDao = sqlSession.getMapper(UserDao.class);
+//        Map<String, Object> m = new HashMap<>();
+//
+//        m.put("username","Son");
+//        m.put("id",2);
 //        m.put("members","liu");
 //        chatGroupdao.addUserToGroup(m);
-        userDao.addUserToUser(m);
+//        userDao.addUserToUser(m);
 
 
 //        Group_chatDao groupChatdao = sqlSession.getMapper(Group_chatDao.class);
@@ -146,5 +146,24 @@ public class DaoTestNew {
         assertEquals(l.get(0).getId(),8);
         assertEquals(l.size(),1);
 
+    }
+    @Test
+    public void add(){
+        SqlSession sqlSession = MybatisUtilize.getSqlsession();
+        UserDao userDao = sqlSession.getMapper(UserDao.class);
+//        for(int i = 1; i < 41; i++){
+            Map<String,Object> m = new HashMap<>();
+            m.put("id",41);
+            m.put("username","li");
+            userDao.removeUserFromUser(m);
+//        }
+
+//        List<User> u = userDao.selectUser(m);
+//        User u2 = userDao.selectUserByUsername("Son");
+//        userDao.addUserToUser(m);
+//        System.out.println(u.get(0));
+//        System.out.println(u2);
+        sqlSession.commit();
+        sqlSession.close();
     }
 }

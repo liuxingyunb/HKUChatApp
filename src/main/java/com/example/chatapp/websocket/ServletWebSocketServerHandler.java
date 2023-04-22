@@ -120,4 +120,5 @@ public class ServletWebSocketServerHandler extends TextWebSocketHandler {
         System.out.println("send: "+message.getContent());
         session.sendMessage(new TextMessage(JSON.toJSONString(message)));
     }
+
 }

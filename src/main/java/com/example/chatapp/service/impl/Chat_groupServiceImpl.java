@@ -67,10 +67,14 @@ public class Chat_groupServiceImpl implements Chat_groupService {
         }
 
         // 检查用户是否已经存在于群组中
-        if (chatGroup.getMembers() != null && chatGroup.getMembers().contains(username)) {
-            throw new UserAlreadyExistsException("User already exists in chat group: " + username);
+        if (chatGroup.getMembers() != null ) {
+            boolean flag = true;
+            String[] tmp = chatGroup.getMembers().split(";");
+            for(String i: tmp){
+                if(i.equals(user))flag=false;
+            }
+            if(!flag)throw new UserAlreadyExistsException("User already exists in chat group: " + user);
         }
-
         // 将用户添加到群组中
         Map<String,Object> m = new HashMap<>();
         m.put("groupId",groupId);
@@ -129,5 +133,46 @@ public class Chat_groupServiceImpl implements Chat_groupService {
     public List<Chat_group> selectAllGroups() {
         Map<String,Object> map = new HashMap<>();
         return chat_groupDao.selectChatGroup(map);
+    }
+    /**
+     * 将用户添加到指定群组中的成员列表中
+     *
+     * @param groupId  群组ID
+     * @param memberName 用户名
+     * @throws UserNotFoundException   如果用户不存在
+     * @throws UserAlreadyExistsException 如果用户已经存在于群组中
+     */
+    public void addMemberToChatGroup(int groupId, String memberName)
+            throws UserNotFoundException, UserAlreadyExistsException {
+        // 检查用户是否存在
+        User user = userDao.selectUserByUsername(memberName);
+        if (user == null) {
+            throw new UserNotFoundException("User not found: " + memberName);
+        }
+
+        // 检查群组是否存在
+        Chat_group chatGroup = chat_groupDao.selectChat_groupById(groupId);
+        if (chatGroup == null) {
+            throw new ChatGroupNotFoundException("Chat group not found: " + groupId);
+        }
+
+        // 检查用户是否已经存在于群组中
+        if (chatGroup.getMembers() != null ) {
+            boolean flag = true;
+            String[] tmp = chatGroup.getMembers().split(";");
+            for(String i: tmp){
+                if(i.equals(memberName))flag=false;
+            }
+            if(!flag)throw new UserAlreadyExistsException("User already exists in chat group: " + memberName);
+        }
+
+
+        String members = chat_groupDao.selectChat_groupById(groupId).getMembers();
+
+        members += memberName + ';';
+        Map<String,Object> m = new HashMap<>();
+        m.put("id",groupId);
+        m.put("members",members);
+        chat_groupDao.updateChat_group(m);
     }
 }
