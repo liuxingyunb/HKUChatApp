@@ -7,6 +7,7 @@ import com.example.chatapp.service.Chat_groupService;
 import com.example.chatapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,12 @@ public class ChatConroller {
     @PostMapping("/test")
     public Response pin(@RequestBody User user) {
         List<User> users = chatService.recommendPersonal(user.getId(),3);
+        return Response.ok("fuck",users);
+    }
+    @PostMapping("/add")
+    public Response pin2(@RequestBody User user) {
+        List<User> users = chatService.recommendPersonal(user.getId(),1);
+        System.out.println("okkkk");
         return Response.ok("fuck",users);
     }
 }
