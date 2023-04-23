@@ -157,7 +157,6 @@ public class DaoTestNew {
             m.put("username","li");
             userDao.removeUserFromUser(m);
 //        }
-
 //        List<User> u = userDao.selectUser(m);
 //        User u2 = userDao.selectUserByUsername("Son");
 //        userDao.addUserToUser(m);
