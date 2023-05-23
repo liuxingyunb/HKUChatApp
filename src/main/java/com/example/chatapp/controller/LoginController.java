@@ -2,6 +2,8 @@ package com.example.chatapp.controller;
 
 import com.example.chatapp.model.po.User;
 import com.example.chatapp.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,12 +16,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 @RestController
+@Api(tags = "Login and registger")
 @RequestMapping("/login")
 public class LoginController {
 
     @Autowired
    private UserService userService;
 
+    @ApiOperation(value = "register")
     @PostMapping("/register")
     public Response register(@RequestBody User user){
         if(userService.getUserByUsername(user.getUsername())==null) {
@@ -30,6 +34,7 @@ public class LoginController {
             return Response.error("User name has been registered!");
     }
 
+    @ApiOperation(value = "login")
     @PostMapping("/go")
     public Response go(@RequestBody User user){
         if(userService.getUserByUsername(user.getUsername())==null) {

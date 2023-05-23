@@ -52,6 +52,7 @@ public class Server {//autowired失效
         this.userId = id;
         this.session = session;
         Server server = WEBSOCKET_MAP.get(id);
+        System.out.println(id +" connecting");
         if (server == null) {
             WEBSOCKET_MAP.put(id,this);
         } else {
