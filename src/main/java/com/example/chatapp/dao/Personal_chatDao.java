@@ -19,5 +19,4 @@ public interface Personal_chatDao {
     @Select("SELECT * FROM personal_chat WHERE id = #{id}")
     Personal_chat selectPersonal_chatsById(int id);
     public void updatePersonal_chat(Map<String, Object> map);
-
 }

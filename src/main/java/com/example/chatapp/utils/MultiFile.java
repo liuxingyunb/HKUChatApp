@@ -4,13 +4,14 @@ import lombok.Synchronized;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MultiFile {
 
     public static String path="";
     public static AtomicInteger count = new AtomicInteger(0);
-
+    public static HashMap<String,String> nameToPath = new HashMap<>();
     public static boolean dirExist = false;
     public static String fileStore(byte[] data,String filename) throws Exception{//返回路径,filename包括后缀名
         count.incrementAndGet();
@@ -24,7 +25,9 @@ public class MultiFile {
         }
         String tmp="../FileStorage/"+String.valueOf(count)+"_"+filename;
         fileStore(tmp,data);
-        return new File(tmp).getAbsolutePath();
+        String path = new File(tmp).getAbsolutePath();
+        nameToPath.put(filename,path);
+        return path;
     }
     public static void fileStore(String path,byte[] data) throws IOException {
         BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(path));
@@ -52,6 +55,17 @@ public class MultiFile {
           e.printStackTrace();
           return false;
         }
+    }
+
+    public static boolean fileDelete(String name) {
+           String path = nameToPath.get(name);
+           nameToPath.remove(name);
+           File file = new File(path);
+           if(file.exists()) {
+               return file.delete();
+           } else {
+               return false;
+           }
     }
 
 }

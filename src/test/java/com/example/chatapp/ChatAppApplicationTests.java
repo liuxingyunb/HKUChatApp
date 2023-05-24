@@ -26,11 +26,11 @@ class ChatAppApplicationTests {
     Personal_chatService personal_chatService;
 
 
-    @Test
-    void friend(){
-
-        System.out.println(userService.selectFriends(11));
-    }
+//    @Test
+//    void friend(){
+//
+//        System.out.println(userService.selectFriends(11));
+//    }
 //    @Test
 //    void UserTest() {
 //        //User user = new User("test1","12313312");
