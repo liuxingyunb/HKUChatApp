@@ -30,18 +30,18 @@ public class ChatUtil {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                if(minuteMap != null) {//
+                if(sizeMap != null) {//
                     for(HashSet<Integer> set:sizeMap.keySet()) {
                         Iterator<Integer> it = set.iterator();
                         Integer userId1 = it.next();Integer userId2 = it.next();
                         List<Integer> list = userService.selectFriends(userId1).stream().map(User::getId).collect(Collectors.toList());
                         if(!list.contains(userId2)) {
-                            if(minuteMap.containsKey(set))minuteMap.remove(set);
+//                            if(minuteMap.containsKey(set))minuteMap.remove(set);
                             if(sizeMap.containsKey(set))sizeMap.remove(set);
                             continue;}
-                        int size = sizeMap.get(set);
-                        minuteMap.put(set,size);
-                        sizeMap.put(set,0);//重置
+//                        int size = sizeMap.get(set);
+//                        minuteMap.put(set,size);
+//                        sizeMap.put(set,0);//重置
                     }
                 }
             }

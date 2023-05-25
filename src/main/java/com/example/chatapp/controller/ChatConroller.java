@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@ComponentScan("com.example.chatapp.*")
+//@ComponentScan("com.example.chatapp.*")
 @RestController
 @Api(tags = "Recommendation")
 @RequestMapping("/recommend")
