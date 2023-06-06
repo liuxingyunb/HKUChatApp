@@ -25,7 +25,7 @@ public class User  {
     private String avatar_url;
     private String signature;
     private String telephone_number;
-    private String birthday;
+    private Date birthday;
     private String mail;
     private String school;
     private Date create_time;
@@ -42,7 +42,7 @@ public class User  {
         this.password = password;
     }
 
-    public User(String username, String password, String role, String gender, int age, String hometown, String major, String avatar_url, String signature, String telephone_number, String birthday, String mail, String school, Date create_time, Date last_modified_time) {
+    public User(String username, String password, String role, String gender, int age, String hometown, String major, String avatar_url, String signature, String telephone_number, Date birthday, String mail, String school, Date create_time, Date last_modified_time) {
         this.username = username;
         this.password = password;
         this.role = role;
@@ -121,9 +121,9 @@ public class User  {
 
     public void setTelephone_number(String telephone_number) { this.telephone_number = telephone_number; }
 
-    public String getBirthday() { return birthday; }
+    public Date getBirthday() { return birthday; }
 
-    public void setBirthday(String birthday) { this.birthday = birthday; }
+    public void setBirthday(Date birthday) { this.birthday = birthday; }
 
     public String getMail() { return mail; }
 

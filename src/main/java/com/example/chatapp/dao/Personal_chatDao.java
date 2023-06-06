@@ -1,10 +1,7 @@
 package com.example.chatapp.dao;
 
 import com.example.chatapp.model.po.Personal_chat;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,4 +16,5 @@ public interface Personal_chatDao {
     @Select("SELECT * FROM personal_chat WHERE id = #{id}")
     Personal_chat selectPersonal_chatsById(int id);
     public void updatePersonal_chat(Map<String, Object> map);
+    List<Personal_chat> getChatMessages(@Param("senderId") int senderId, @Param("receiverId") int receiverId);
 }

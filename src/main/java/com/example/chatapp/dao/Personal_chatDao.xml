@@ -12,6 +12,11 @@
         </set>
         WHERE id = #{id}
     </update>
-
+    <select id="getChatMessages" resultType="com.example.chatapp.model.po.Personal_chat">
+        SELECT *
+        FROM Personal_chat
+        WHERE (sender_id = #{senderId} AND receiver_id = #{receiverId})
+        OR (sender_id = #{receiverId} AND receiver_id = #{senderId})
+    </select>
 
 </mapper>

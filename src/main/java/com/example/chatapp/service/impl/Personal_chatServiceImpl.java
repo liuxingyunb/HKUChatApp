@@ -2,7 +2,6 @@ package com.example.chatapp.service.impl;
 
 import com.example.chatapp.dao.Personal_chatDao;
 import com.example.chatapp.model.po.Personal_chat;
-import com.example.chatapp.model.po.User;
 import com.example.chatapp.service.Personal_chatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +31,12 @@ public class Personal_chatServiceImpl implements Personal_chatService {
     @Override
     public void deletePersonal_chat(int id) {
         personal_chatDao.deletePersonal_chatById(id);
+    }
+
+    @Override
+    public List<Personal_chat> showHistory(int fromId, int toId) {
+
+        return null;
     }
 
 }

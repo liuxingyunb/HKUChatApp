@@ -1,8 +1,6 @@
 package com.example.chatapp.service;
 
 import com.example.chatapp.model.po.Personal_chat;
-import com.example.chatapp.model.po.Photo_wall;
-import com.example.chatapp.model.po.User;
 
 import java.util.List;
 import java.util.Map;
@@ -13,4 +11,5 @@ public interface Personal_chatService {
     void updatePersonal_chat(Map<String, Object> map);
     void deletePersonal_chat(int id);
 
+    List<Personal_chat> showHistory(int fromId, int toId);
 }
