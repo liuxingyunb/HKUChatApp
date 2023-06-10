@@ -72,5 +72,13 @@ public class UserController {
     public Response getFriendList(@RequestParam("id") int userId){
         return Response.ok("friend list",userService.selectFriends(userId));
     }
+    @ApiOperation(value = "return user info")
+    @PostMapping("/getUserInfo")
+    public Response getUserInfo(@RequestParam("id") int userId){
+        return Response.ok("user info",userService.getUserById(userId));
+    }
+
+
+
 
 }
