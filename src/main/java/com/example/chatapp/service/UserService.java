@@ -23,5 +23,7 @@ public interface UserService {
     public List<User> selectFriends(int id);
     public List<Chat_group> selectChatGroupsContainUser(String username);
     public List<User> selectAllUsers();
-    void addFriendToUser(int userId, String friendName) throws UserNotFoundException, UserAlreadyExistsException;
+//    void addFriendToUser(int userId, String friendName) throws UserNotFoundException, UserAlreadyExistsException;
+    public void addFriendIdToUser(int userId, String friendName);
+    public void removeUserIdFromUser(int id, String friendName);
 }

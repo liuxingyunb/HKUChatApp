@@ -67,5 +67,10 @@ public class UserController {
 
         return Response.ok("Delete Successfully!",userService.selectFriends(userId));
     }
+    @ApiOperation(value = "return friend list")
+    @PostMapping("/getFriendList")
+    public Response getFriendList(@RequestParam("id") int userId){
+        return Response.ok("friend list",userService.selectFriends(userId));
+    }
 
 }

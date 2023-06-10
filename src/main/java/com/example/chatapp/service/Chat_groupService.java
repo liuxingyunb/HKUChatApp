@@ -21,4 +21,6 @@ public interface Chat_groupService {
     public List<Chat_group> selectAllGroups();
     public void addMemberToChatGroup(int groupId, String memberName) throws UserNotFoundException, ChatGroupNotFoundException, UserAlreadyExistsException;
 
+    void removeMemberIdFromGroup(int groupId, String userName)
+            throws UserNotFoundException, UserNotInChatGroupException;
 }

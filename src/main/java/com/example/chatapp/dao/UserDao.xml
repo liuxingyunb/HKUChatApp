@@ -82,7 +82,7 @@
     <update id="removeUserFromUser" parameterType="map">
         UPDATE users
         <set>
-            members = REPLACE(members, CONCAT(#{username},'',';'), '')
+            members = REPLACE(members, CONCAT(#{friendId},'',';'), '')
         </set>
         WHERE id = #{id}
     </update>

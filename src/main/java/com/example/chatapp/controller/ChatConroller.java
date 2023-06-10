@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,8 +24,10 @@ import java.util.List;
 @RequestMapping("/recommend")
 public class ChatConroller {
     @Autowired
+    @Lazy
     private ChatService chatService;
     @Autowired
+    @Lazy
     private UserService userService;
     @ApiOperation(value = "recommend persons to user")
     @PostMapping("/add")

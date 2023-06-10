@@ -34,9 +34,9 @@ public class Personal_chatServiceImpl implements Personal_chatService {
     }
 
     @Override
-    public List<Personal_chat> showHistory(int fromId, int toId) {
+    public List<Personal_chat> showHistory(int senderId, int receiverId) {
 
-        return null;
+        return personal_chatDao.getChatMessages(senderId,receiverId);
+
     }
-
 }

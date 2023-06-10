@@ -11,6 +11,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -27,14 +28,19 @@ import java.util.Map;
 public class TestController {
 
     @Autowired
+    @Lazy
     private UserService userService;
     @Autowired
+    @Lazy
     private Chat_groupService chat_groupService;
     @Autowired
+    @Lazy
     private Group_chatService group_chatService;
     @Autowired
+    @Lazy
     private Personal_chatService personal_chatService;
     @Autowired
+    @Lazy
     private Photo_wallService photo_wallService;
     @PostMapping("/pin")
     public Response pin(@RequestBody User user) {
@@ -112,7 +118,7 @@ public class TestController {
     @PostMapping("/pin9")
     public Response pin9(@RequestParam int id, @RequestParam String username) {
 //        chat_groupService.addMemberToChatGroup(id,username);
-        userService.addFriendToUser(id,username);
+        userService.addFriendIdToUser(id,username);
 //        userService.removeUserFromUser(id,username);
         User user = userService.getUserById(id);
         return Response.ok("fuck",user);
@@ -132,5 +138,29 @@ public class TestController {
     public Response db() {
         return Response.ok();
     }
-
+    @GetMapping("/history")
+    public Response history(@RequestParam int senderId, @RequestParam int receiverId) {
+        List<Personal_chat> history = personal_chatService.showHistory(senderId,receiverId);
+        return Response.ok("history",history);
+    }
+    @PostMapping("/add")
+    public Response add(@RequestParam int id, @RequestParam String friendName) {
+        userService.addFriendIdToUser(id,friendName);
+        return Response.ok("history",userService.getUserById(id).getMembers());
+    }
+    @PostMapping("/remove")
+    public Response remove(@RequestParam int id, @RequestParam String friendName) {
+        userService.removeUserIdFromUser(id,friendName);
+        return Response.ok("history",userService.getUserById(id).getMembers());
+    }
+    @PostMapping("/addGroup")
+    public Response addGroup(@RequestParam int id, @RequestParam String name) {
+        chat_groupService.addMemberToChatGroup(id,name);
+        return Response.ok("history",chat_groupService.getChat_groupById(id));
+    }
+    @PostMapping("/removeGroup")
+    public Response removeGroup(@RequestParam int id, @RequestParam String name) {
+       chat_groupService.removeMemberIdFromGroup(id,name);
+        return Response.ok("history",chat_groupService.getChat_groupById(id));
+    }
 }

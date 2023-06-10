@@ -26,7 +26,7 @@
     <update id="removeUserFromGroup" parameterType="java.util.Map">
         UPDATE chat_groups
         <set>
-            members = REPLACE(members, CONCAT(#{username},'',';'), '')
+            members = REPLACE(members, CONCAT(#{userId},'',';'), '')
         </set>
         WHERE id = #{groupId}
     </update>

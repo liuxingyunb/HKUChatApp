@@ -10,6 +10,7 @@ import com.example.chatapp.model.po.Chat_group;
 import com.example.chatapp.model.po.User;
 import com.example.chatapp.service.UserService;
 import com.example.chatapp.utilize.MybatisUtilize;
+import io.swagger.models.auth.In;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -136,7 +137,7 @@ public class UserServiceImpl implements UserService {
         String[] names = members.split(";");
         List<User> friendList = new LinkedList<>();
         for (String name : names){
-            friendList.add(userDao.selectUserByUsername(name));
+            friendList.add(userDao.selectUserById(Integer.parseInt(name)));
         }
         return friendList;
     }
@@ -158,16 +159,8 @@ public class UserServiceImpl implements UserService {
         return userDao.selectUser(map);
     }
 
-    @Override
-/**
- * 将用户添加到指定群组中的成员列表中
- *
- * @param userId  群组ID
- * @param friendName 用户名
- * @throws UserNotFoundException   如果用户不存在
- * @throws UserAlreadyExistsException 如果用户已经存在于群组中
- */
-public void addFriendToUser(int userId, String friendName)
+
+    public void addFriendIdToUser(int userId, String friendName)
             throws UserNotFoundException, UserAlreadyExistsException {
         // 检查用户是否存在
         User friend = userDao.selectUserByUsername(friendName);
@@ -179,24 +172,48 @@ public void addFriendToUser(int userId, String friendName)
         if (user == null) {
             throw new UserNotFoundException ("User not found: " + userId);
         }
-
-        // 检查用户是否已经存在于用户列表中
-        if (user.getMembers() != null ) {
+        int friendId = userDao.selectUserByUsername(friendName).getId();
+        String members = user.getMembers();
+   //      检查用户是否已经存在于用户列表中
+        if (members!=null&&!members.equals("")) {
             boolean flag = true;
             String[] tmp = user.getMembers().split(";");
             for(String i: tmp){
-                if(i.equals(friendName))flag=false;
+                if(Integer.parseInt(i) == friendId)flag=false;
             }
             if(!flag)throw new UserAlreadyExistsException("Friend already exists in user friend: " + friendName);
         }
-        // 将用户添加到用户列表中
+    //     将用户添加到用户列表中
 
-        String members = userDao.selectUserById(userId).getMembers();
-        if(members == null) members = friendName + ';';
-        else members += friendName + ';';
+        if(members == null||members.equals("")) members = String.valueOf(friendId) + ';';
+        else members += String.valueOf(friendId) + ';';
         Map<String,Object> m = new HashMap<>();
         m.put("id",userId);
         m.put("members",members);
         userDao.updateUser(m);
     }
+    public void removeUserIdFromUser(int id, String friendName)
+            throws UserNotFoundException, UserNotInChatGroupException {
+        // 检查用户是否存在
+        User user = userDao.selectUserByUsername(friendName);
+        if (user == null) {
+            throw new UserNotFoundException("User not found: " + friendName);
+        }
+
+        User user2 = userDao.selectUserById(id);
+        if (user2 == null) {
+            throw new UserNotFoundException ("User not found: " + id);
+        }
+        int friendId = userDao.selectUserByUsername(friendName).getId();
+        if (user2.getMembers() == null || !user2.getMembers().contains(String.valueOf(friendId))) {
+            throw new UserNotInChatGroupException("User not in friend list: " + friendName);
+        }
+
+        // 从群组中删除用户
+        Map<String,Object> m = new HashMap<>();
+        m.put("id",id);
+        m.put("friendId",friendId);
+        userDao.removeUserFromUser(m);
+    }
 }
+

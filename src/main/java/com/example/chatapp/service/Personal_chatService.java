@@ -11,5 +11,5 @@ public interface Personal_chatService {
     void updatePersonal_chat(Map<String, Object> map);
     void deletePersonal_chat(int id);
 
-    List<Personal_chat> showHistory(int fromId, int toId);
+    List<Personal_chat> showHistory(int senderId, int receiverId);
 }

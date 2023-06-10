@@ -96,8 +96,8 @@ public class ChatServiceImpl implements ChatService {
          }
          System.out.println(ans);
          for(User user:ans) {
-             userService.addFriendToUser(userId,user.getUsername());
-             userService.addFriendToUser(user.getId(),userService.getUserById(userId).getUsername());
+             userService.addFriendIdToUser(userId,user.getUsername());
+             userService.addFriendIdToUser(user.getId(),userService.getUserById(userId).getUsername());
          }
          return ans;
     }

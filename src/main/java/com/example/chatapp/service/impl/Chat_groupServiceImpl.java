@@ -9,7 +9,6 @@ import com.example.chatapp.exception.UserNotInChatGroupException;
 import com.example.chatapp.model.po.Chat_group;
 import com.example.chatapp.model.po.User;
 import com.example.chatapp.service.Chat_groupService;
-import com.example.chatapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,18 +66,18 @@ public class Chat_groupServiceImpl implements Chat_groupService {
         }
 
         // 检查用户是否已经存在于群组中
-        if (chatGroup.getMembers() != null ) {
+        if (chatGroup.getMembers() != null&&chatGroup.getMembers() != "" ) {
             boolean flag = true;
             String[] tmp = chatGroup.getMembers().split(";");
             for(String i: tmp){
-                if(i.equals(user))flag=false;
+                if(Integer.parseInt(i)==user.getId())flag=false;
             }
             if(!flag)throw new UserAlreadyExistsException("User already exists in chat group: " + user);
         }
         // 将用户添加到群组中
         Map<String,Object> m = new HashMap<>();
         m.put("groupId",groupId);
-        m.put("username",username);
+        m.put("username",String.valueOf(user.getId()));
         chat_groupDao.addUserToGroup(m);
     }
 
@@ -146,6 +145,7 @@ public class Chat_groupServiceImpl implements Chat_groupService {
             throws UserNotFoundException, UserAlreadyExistsException {
         // 检查用户是否存在
         User user = userDao.selectUserByUsername(memberName);
+        String members = chat_groupDao.selectChat_groupById(groupId).getMembers();
         if (user == null) {
             throw new UserNotFoundException("User not found: " + memberName);
         }
@@ -157,22 +157,44 @@ public class Chat_groupServiceImpl implements Chat_groupService {
         }
 
         // 检查用户是否已经存在于群组中
-        if (chatGroup.getMembers() != null ) {
+        if (members != null &&!members.equals("")) {
             boolean flag = true;
-            String[] tmp = chatGroup.getMembers().split(";");
+            String[] tmp = members.split(";");
             for(String i: tmp){
-                if(i.equals(memberName))flag=false;
+                if(Integer.parseInt(i)==user.getId())flag=false;
             }
             if(!flag)throw new UserAlreadyExistsException("User already exists in chat group: " + memberName);
         }
 
-
-        String members = chat_groupDao.selectChat_groupById(groupId).getMembers();
-
-        members += memberName + ';';
+        members += String.valueOf(user.getId()) + ';';
         Map<String,Object> m = new HashMap<>();
         m.put("id",groupId);
         m.put("members",members);
         chat_groupDao.updateChat_group(m);
+    }
+    @Override
+    public void removeMemberIdFromGroup(int groupId, String userName)
+            throws UserNotFoundException, UserNotInChatGroupException {
+        // 检查用户是否存在
+        User user = userDao.selectUserByUsername(userName);
+        if (user == null) {
+            throw new UserNotFoundException("User not found: " + userName);
+        }
+
+        Chat_group chatGroup = chat_groupDao.selectChat_groupById(groupId);
+        if (chatGroup == null) {
+            throw new ChatGroupNotFoundException("Chat group not found: " + groupId);
+        }
+
+        int userId = user.getId();
+        if (chatGroup.getMembers() == null || !chatGroup.getMembers().contains(String.valueOf(userId))) {
+            throw new UserNotInChatGroupException("User not in group: " + user.getUsername());
+        }
+
+        // 从群组中删除用户
+        Map<String,Object> m = new HashMap<>();
+        m.put("groupId",groupId);
+        m.put("userId",userId);
+        chat_groupDao.removeUserFromGroup(m);
     }
 }
