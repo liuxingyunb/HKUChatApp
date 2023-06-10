@@ -63,10 +63,12 @@ public class UserController {
     @ApiOperation(value = "Delete friend")
     @PostMapping("/delete-friend")
     public Response deleteFriend(@RequestParam("name") String deleteuser, @RequestParam("id") int userId){
-        userService.removeUserFromUser(userId,deleteuser);
+        userService.removeUserIdFromUser(userId,deleteuser);
 
         return Response.ok("Delete Successfully!",userService.selectFriends(userId));
     }
+
+
     @ApiOperation(value = "return friend list")
     @PostMapping("/getFriendList")
     public Response getFriendList(@RequestParam("id") int userId){

@@ -8,6 +8,7 @@ import com.example.chatapp.model.vo.Response;
 import com.example.chatapp.service.*;
 import com.example.chatapp.utilize.MybatisUtilize;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;

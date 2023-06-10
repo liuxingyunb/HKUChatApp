@@ -26,4 +26,5 @@ public interface UserService {
 //    void addFriendToUser(int userId, String friendName) throws UserNotFoundException, UserAlreadyExistsException;
     public void addFriendIdToUser(int userId, String friendName);
     public void removeUserIdFromUser(int id, String friendName);
+    int[] selectFriendId(int id);
 }

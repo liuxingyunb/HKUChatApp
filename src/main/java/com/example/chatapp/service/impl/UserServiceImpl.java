@@ -215,5 +215,21 @@ public class UserServiceImpl implements UserService {
         m.put("friendId",friendId);
         userDao.removeUserFromUser(m);
     }
+
+    public int[] selectFriendId(int id){
+        String members = userDao.selectUserById(id).getMembers();
+        if(members==null)
+            return null;
+        members = members.replaceAll(";$", "");
+
+        String[] ids = members.split(";");
+        int[] friends = new int[ids.length];
+
+        for (int i = 0; i < ids.length; i++) {
+            friends[i] = Integer.parseInt(ids[i]);
+        }
+
+        return friends;
+    }
 }
 

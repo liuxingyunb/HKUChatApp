@@ -1,9 +1,12 @@
 package com.example.chatapp.controller;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.example.chatapp.model.po.User;
 import com.example.chatapp.model.vo.RegisterRequest;
 import com.example.chatapp.service.EmailService;
+import com.example.chatapp.service.Personal_chatService;
 import com.example.chatapp.service.UserService;
+import com.example.chatapp.utilize.JwtUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
@@ -11,6 +14,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,14 +23,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.chatapp.model.vo.Response;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @Api(tags = "Login and registger")
 @RequestMapping("/login")
+@RequiresGuest
 public class LoginController {
 
     @Autowired
@@ -34,6 +36,9 @@ public class LoginController {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private Personal_chatService personal_chatService;
 
     private Map<String, String> verificationCodeMap = new HashMap<>();
 
@@ -57,7 +62,7 @@ public class LoginController {
         else
             return Response.error("User name has been registered!");
     }
-/*
+
     @ApiOperation(value = "login")
     @PostMapping("/go")
     public Response go(@RequestBody User user){
@@ -65,17 +70,26 @@ public class LoginController {
             return Response.error("No such user!");
         }
         else if(userService.getUserByUsername(user.getUsername()).getPassword().equals(user.getPassword())) {
-            List<User> list=new LinkedList<>();
-            list.add(userService.getUserByUsername(user.getUsername()));
-            if(userService.selectFriends(userService.getUserByUsername(user.getUsername()).getId())!=null)
-                list.addAll(userService.selectFriends(userService.getUserByUsername(user.getUsername()).getId()));
-            return Response.ok("Login successfully!", list);
+            // 登录成功，生成JWT令牌
+            String jwtToken = JwtUtils.generateToken(user.getId(),user.getUsername());
+
+            User myuser=userService.getUserByUsername(user.getUsername());
+            int[] ids=userService.selectFriendId(myuser.getId());
+
+            JSONObject data = new JSONObject();
+            data.put("Login_User", myuser);
+            data.put("Token", jwtToken);
+            for(int i=0;i<ids.length;i++){
+                data.put(userService.getUserById(ids[i]).getUsername() ,personal_chatService.showHistory(myuser.getId(),ids[i]));
+            }
+
+            return Response.ok("Login successfully!", data);
         }
         else
             return Response.error("Wrong password");
-    }*/
+    }
 
-  @ApiOperation(value = "login")
+ /* @ApiOperation(value = "login")
   @PostMapping("/go")
   public Response go(@RequestBody User requestUser){
       String username = requestUser.getUsername();
@@ -93,12 +107,15 @@ public class LoginController {
           String token_username = token.getUsername();
           User user = userService.getUserByUsername(token_username);
 
+          // 登录成功，生成JWT令牌
+          String jwtToken = JwtUtils.generateToken(user.getId(),user.getUsername());
+
           List<User> list = new ArrayList<>();
           list.add(user);
           if(userService.selectFriends(user.getId()) != null)
               list.addAll(userService.selectFriends(user.getId()));
 
-          return Response.ok("Login successfully!", list);
+          return Response.ok("Login successfully!", jwtToken);
       } catch (UnknownAccountException e) {
           return Response.error("No such user!");
       } catch (IncorrectCredentialsException e) {
@@ -106,7 +123,7 @@ public class LoginController {
       } catch (AuthenticationException e) {
           return Response.error("Authentication failed");
       }
-  }
+  }*/
 
     @ApiOperation(value = "Send verification code")
     @PostMapping("/send-verifyemail")
