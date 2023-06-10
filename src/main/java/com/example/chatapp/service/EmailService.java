@@ -8,4 +8,5 @@ public interface EmailService {
     void saveVerificationCode(String username, String verificationCode);
     Map<String, String> getVerificationCodeMap();
     boolean isValidEmail(String email);
+    void findPassword(String username);
 }

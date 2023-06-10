@@ -1,6 +1,8 @@
 package com.example.chatapp.service.impl;
 
+import com.example.chatapp.model.po.User;
 import com.example.chatapp.service.EmailService;
+import com.example.chatapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -15,6 +17,9 @@ public class EmailServiceImpl implements EmailService {
 
     @Autowired
     private JavaMailSender mailSender;
+
+    @Autowired
+    private UserService userService;
 
     private Map<String, String> verificationCodeMap = new HashMap<>();
 
@@ -60,6 +65,20 @@ public class EmailServiceImpl implements EmailService {
     public boolean isValidEmail(String email) {
         String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
         return email.matches(regex);
+    }
+
+    @Override
+    public void findPassword(String username){
+        User user=userService.getUserByUsername(username);
+        String to=user.getMail();
+        String password=user.getPassword();
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setFrom("Random_Chatapp@outlook.com");
+        message.setSubject("Recover Password");
+        message.setText("Your password is: " + password + "\nFor security reasons, please change your password in time after logging in!");
+        mailSender.send(message);
     }
 }
 
