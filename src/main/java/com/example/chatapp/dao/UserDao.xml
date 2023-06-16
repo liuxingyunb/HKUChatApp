@@ -21,6 +21,7 @@
             <if test="mail != null">mail = #{mail},</if>
             <if test="school != null">school = #{school},</if>
             <if test="members != null">members = #{members},</if>
+            <if test="role != null">role = #{role},</if>
         </set>
         WHERE id = #{id}
     </update>

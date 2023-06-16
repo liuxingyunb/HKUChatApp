@@ -41,7 +41,7 @@ public class FileController {
 
     @ApiOperation(value = "delete file")
     @PostMapping("/delete")
-    public Response fileSend(@RequestParam("name") String name) throws Exception{
+    public Response fileDelete(@RequestParam("name") String name) throws Exception{
         MultiFile.fileDelete(name);
         return Response.ok();
     }

@@ -11,7 +11,8 @@ public class Chat_group {
     private Date create_time;
     private Date last_active_time;
 
-    /**差一个标签：例如历史，文化，汽车，数学，物理等等**/
+    private String role;
+
 
     public Chat_group(){}
 
@@ -63,6 +64,14 @@ public class Chat_group {
 
     public Date getLast_active_time() {
         return last_active_time;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public void setLast_active_time(Date last_active_time) {

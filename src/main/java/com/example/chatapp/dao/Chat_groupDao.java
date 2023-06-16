@@ -11,7 +11,7 @@ import java.util.Map;
 @Repository
 @Mapper
 public interface Chat_groupDao {
-    @Insert("insert into chat_groups(name, owner_id, create_time, last_active_time, members) value(#{name}, #{owner_id}, #{create_time}, #{last_active_time}, #{members})")
+    @Insert("insert into chat_groups(name, owner_id, create_time, last_active_time, members, role) value(#{name}, #{owner_id}, #{create_time}, #{last_active_time}, #{members}, #{role})")
     public void addChat_group(Chat_group chatGroup);
     @Delete("DELETE FROM chat_groups WHERE id = #{id}")
     public void deleteChat_group(int id);

@@ -5,13 +5,14 @@ import lombok.Synchronized;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MultiFile {
 
     public static String path="";
     public static AtomicInteger count = new AtomicInteger(0);
-    public static HashMap<String,String> nameToPath = new HashMap<>();
+    public static ConcurrentHashMap<String,String> nameToPath = new ConcurrentHashMap<>();
     public static boolean dirExist = false;
     public static String fileStore(byte[] data,String filename) throws Exception{//返回路径,filename包括后缀名
         count.incrementAndGet();
@@ -27,6 +28,7 @@ public class MultiFile {
         fileStore(tmp,data);
         String path = new File(tmp).getAbsolutePath();
         nameToPath.put(filename,path);
+        nameToPath.put(path,path);
         return path;
     }
     public static void fileStore(String path,byte[] data) throws IOException {

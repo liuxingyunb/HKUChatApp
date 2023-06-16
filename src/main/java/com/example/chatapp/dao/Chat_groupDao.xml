@@ -46,6 +46,9 @@
         <if test="members != null">
             AND binary members like concat('%', #{members}, '%')
         </if>
+        <if test="role != null">
+            AND binary members like concat('%', #{role}, '%')
+        </if>
     </select>
 
 </mapper>
