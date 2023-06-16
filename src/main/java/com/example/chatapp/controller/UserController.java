@@ -50,16 +50,6 @@ public class UserController {
         return Response.ok("Update Successfully");
     }
 
-    @ApiOperation(value = "find password")
-    @PostMapping("/find-password")
-    public Response findPassword(@RequestBody String username){
-        if(userService.getUserByUsername(username)==null)
-            return Response.error("No such user!");
-
-        emailService.findPassword(username);
-        return Response.ok("Password has been sent to your Email!");
-    }
-
     @ApiOperation(value = "Delete friend")
     @PostMapping("/delete-friend")
     public Response deleteFriend(@RequestParam("name") String deleteuser, @RequestParam("id") int userId){
@@ -79,6 +69,8 @@ public class UserController {
     public Response getUserInfo(@RequestParam("id") int userId){
         return Response.ok("user info",userService.getUserById(userId));
     }
+
+
 
 
 

@@ -17,10 +17,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.example.chatapp.model.vo.Response;
 
 import java.util.*;
@@ -138,5 +135,17 @@ public class LoginController {
         verificationCodeMap=emailService.getVerificationCodeMap();
 
         return Response.ok("Send verification code to your Email!");
+    }
+
+    @ApiOperation(value = "find password")
+    @PostMapping("/find-password")
+    public Response findPassword(@RequestParam("username") String username, @RequestParam("email") String email){
+        if(userService.getUserByUsername(username)==null)
+            return Response.error("No such user!");
+        if(!userService.getUserByUsername(username).getMail().equals(email))
+            return Response.error("Wrong Email Address!");
+
+        emailService.findPassword(username);
+        return Response.ok("Password has been sent to your Email!");
     }
 }
