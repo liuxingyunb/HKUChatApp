@@ -23,7 +23,8 @@ public class TimeController {
         HashSet<Integer> set = new HashSet<>();
         set.add(Integer.parseInt(userId1));set.add(Integer.parseInt(userId2));
         Integer time = ChatUtil.sizeMap.get(set);
+        System.out.println("countdown"+time);
         if(time == null)return Response.error("No chat content between the users.");
-        return Response.ok(String.valueOf(time));
+        return Response.ok(userId1+" "+userId2,String.valueOf(time));
     }
 }

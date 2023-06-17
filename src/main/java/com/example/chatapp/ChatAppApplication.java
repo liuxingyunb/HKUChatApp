@@ -1,5 +1,6 @@
 package com.example.chatapp;
 
+import com.example.chatapp.utils.ChatUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
 public class ChatAppApplication {
 
     public static void main(String[] args) {
+        ChatUtil.startChatStatisticsTask();
         SpringApplication.run(ChatAppApplication.class, args);
     }
 

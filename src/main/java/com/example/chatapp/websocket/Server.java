@@ -118,6 +118,8 @@ public class Server {//autowired失效
                 personal_chatService.addPersonal_chat(tmpPersonalChat);
                 Future<Void> tmpf = sendText(String.valueOf(toUserId),cur);
                 while(!tmpf.isDone());
+                Future<Void> tmpr = sendText(String.valueOf(fromUserId),cur);
+                while(!tmpr.isDone());
                 System.out.println("success");
             }
     }

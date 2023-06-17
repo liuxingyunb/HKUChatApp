@@ -33,7 +33,7 @@ public class ChatConroller {
     @PostMapping("/add")
     public Response recommendPerson(@RequestBody User user) {
         List<User> users = chatService.recommendPersonal(user.getId(),3);
-        return Response.ok("fuck",users);
+        return Response.ok("ok",users);
     }
 
 }

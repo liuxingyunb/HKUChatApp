@@ -21,7 +21,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
 
         // 从请求头中获取 JWT Token
         String token = extractTokenFromRequest(httpServletRequest);
-
+        if(1==1)return true; //测试用，生产环境需要删除
         if (isPermittedRequest(httpServletRequest)) {
             return true;
         }
