@@ -9,7 +9,7 @@ import java.util.Map;
 @Repository
 @Mapper
 public interface Personal_chatDao {
-    @Insert("insert into personal_chat(sender_id, receiver_id, message_type, content, send_time) value(#{sender_id}, #{receiver_id}, #{message_type}, #{content}, #{send_time})")
+    @Insert("insert into personal_chat(id, sender_id, receiver_id, message_type, content, send_time) value(#{id}, #{sender_id}, #{receiver_id}, #{message_type}, #{content}, #{send_time})")
     public void addPersonal_chat(Personal_chat personalChat);
     @Delete("DELETE FROM personal_chat WHERE id = #{id}")
     void deletePersonal_chatById(int chat_id);

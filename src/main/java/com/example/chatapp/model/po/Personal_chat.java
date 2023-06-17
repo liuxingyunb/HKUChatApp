@@ -3,7 +3,7 @@ package com.example.chatapp.model.po;
 import java.util.Date;
 
 public class Personal_chat {
-    int id;
+    String id;
     int sender_id;
     int receiver_id;
     String message_type;//text,video,image,system
@@ -14,7 +14,8 @@ public class Personal_chat {
 
     public Personal_chat() { }
 
-    public Personal_chat(int sender_id, int receiver_id, String message_type, String content, Date send_time) {
+    public Personal_chat(String id, int sender_id, int receiver_id, String message_type, String content, Date send_time) {
+        this.id=id;
         this.sender_id = sender_id;
         this.receiver_id = receiver_id;
         this.message_type = message_type;
@@ -22,11 +23,11 @@ public class Personal_chat {
         this.send_time = send_time;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

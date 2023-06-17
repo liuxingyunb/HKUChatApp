@@ -88,7 +88,7 @@ public class ServletWebSocketServerHandler extends TextWebSocketHandler {
                     group_chatService.addGroup_chat(tmpGroupChat);
                     //给群聊发的话就给该群聊的所有人发送包括自己即可
                 } else {
-                    Personal_chat tmpPersonalChat = new Personal_chat(cur.getFromId(), cur.getToId(), "text", cur.getContent(), date);
+                    Personal_chat tmpPersonalChat = new Personal_chat(cur.getId(),cur.getFromId(), cur.getToId(), "text", cur.getContent(), date);
 //                personal_chatService.addPersonal_chat(tmpPersonalChat);
                     System.out.println("success");
                     sendText(String.valueOf(toUserId), cur);

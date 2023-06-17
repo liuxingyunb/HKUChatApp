@@ -114,7 +114,7 @@ public class Server {//autowired失效
                 System.out.println("success");
                 //给群聊发的话就给该群聊的所有人发送包括自己即可
             } else {
-                Personal_chat tmpPersonalChat = new Personal_chat(cur.getFromId(),cur.getToId(),cur.getType(),cur.getContent(),date);
+                Personal_chat tmpPersonalChat = new Personal_chat(cur.getId(),cur.getFromId(),cur.getToId(),cur.getType(),cur.getContent(),date);
                 personal_chatService.addPersonal_chat(tmpPersonalChat);
                 Future<Void> tmpf = sendText(String.valueOf(toUserId),cur);
                 while(!tmpf.isDone());
