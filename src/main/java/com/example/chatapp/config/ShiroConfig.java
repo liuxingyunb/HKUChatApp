@@ -95,6 +95,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/swagger-ui/**", "anon");
         filterChainDefinitionMap.put("/v3/api-docs", "anon");
         filterChainDefinitionMap.put("/test/**", "anon");
+        filterChainDefinitionMap.put("/chatGPT/**", "anon");
 
         filterChainDefinitionMap.put("/**", "jwt"); // Apply JWT filter to other endpoints
         return filterChainDefinitionMap;

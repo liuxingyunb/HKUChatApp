@@ -43,6 +43,8 @@ public class TestController {
     @Autowired
     @Lazy
     private Photo_wallService photo_wallService;
+    @Autowired
+    private ChatGPTService chatGPTService;
     @PostMapping("/pin")
     public Response pin(@RequestBody User user) {
         userService.addUser(user);
@@ -163,5 +165,9 @@ public class TestController {
     public Response removeGroup(@RequestParam int id, @RequestParam String name) {
        chat_groupService.removeMemberIdFromGroup(id,name);
         return Response.ok("history",chat_groupService.getChat_groupById(id));
+    }
+    @PostMapping("/getResult")
+    public Response getResult(@RequestParam String question) {
+        return Response.ok("answer:", chatGPTService.computeQuestion(question));
     }
 }
