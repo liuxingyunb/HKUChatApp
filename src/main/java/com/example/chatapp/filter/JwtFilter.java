@@ -2,6 +2,8 @@ package com.example.chatapp.filter;
 
 import com.example.chatapp.model.vo.JwtToken;
 import com.example.chatapp.utilize.JwtUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 
 import javax.servlet.ServletRequest;
@@ -20,19 +22,22 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         // 从请求头中获取 JWT Token
         String token = extractTokenFromRequest(httpServletRequest);
 
-        if (isLoginRequest(httpServletRequest) || isSwaggerRequest(httpServletRequest)) {
+        if (isPermittedRequest(httpServletRequest)) {
             return true;
         }
 
         // 判断 Token 是否存在并且有效
-        if (token != null && JwtUtils.validateToken(token)) {
-            // 将 Token 交给 Shiro 进行登录验证
-            getSubject(request, response).login(new JwtToken(token));
-            return true;
+        try {
+            if (token != null) {
+                getSubject(request, response).login(new JwtToken(token));
+                return true; // 身份验证成功，允许访问
+            }else
+                return false;// token为空且不是放行端口
+        } catch (AuthenticationException e) {
+            return false; // 身份验证失败，拒绝访问
         }
-
-        return false;
     }
+
 
     private String extractTokenFromRequest(HttpServletRequest request) {
         String authorizationHeader = request.getHeader(AUTHORIZATION_HEADER);
@@ -42,15 +47,11 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         return null;
     }
 
-    private boolean isLoginRequest(HttpServletRequest request) {
+
+    private boolean isPermittedRequest(HttpServletRequest request) {
         String uri = request.getRequestURI();
         // 根据实际情况判断登录请求的 URI，例如 "/login" 路径
-        return uri.startsWith("/login")||uri.startsWith("/test");
+        return uri.startsWith("/login")||uri.startsWith("/swagger")||uri.startsWith("/v3/api-docs");
     }
 
-    private boolean isSwaggerRequest(HttpServletRequest request) {
-        String uri = request.getRequestURI();
-        // 根据实际情况判断Swagger请求的 URI，例如以 "/swagger" 开头的路径
-        return uri.startsWith("/swagger")||uri.startsWith("/v3/api-docs");
-    }
 }

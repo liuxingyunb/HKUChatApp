@@ -1,17 +1,24 @@
 package com.example.chatapp.controller;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
+import com.example.chatapp.model.po.Personal_chat;
 import com.example.chatapp.model.po.User;
 import com.example.chatapp.model.vo.RegisterRequest;
 import com.example.chatapp.model.vo.Response;
 import com.example.chatapp.service.EmailService;
+import com.example.chatapp.service.Personal_chatService;
 import com.example.chatapp.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
 import java.util.*;
+
 
 @RestController
 @Api(tags = "User information management")
@@ -21,7 +28,8 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private EmailService emailService;
+    private Personal_chatService personal_chatService;
+
 
     @ApiOperation(value = "update")
     @PostMapping("/update")
@@ -70,6 +78,26 @@ public class UserController {
         return Response.ok("user info",userService.getUserById(userId));
     }
 
+    @ApiOperation(value = "Update chat information")
+    @PostMapping("/getChatInfo")
+    public Response getChatInfo(@RequestParam("id") int userId){
+        User user=userService.getUserById(userId);
+
+        int[] ids=userService.selectFriendId(user.getId());
+
+        JSONArray data = new JSONArray();
+
+        for(int i=0;i<ids.length;i++){
+            JSONObject userInfo = new JSONObject();
+            userInfo.put("username",userService.getUserById(ids[i]).getUsername());
+            userInfo.put("avatar_url", userService.getUserById(ids[i]).getAvatar_url());
+            userInfo.put("message",personal_chatService.showHistory(user.getId(),ids[i]));
+
+            data.add(userInfo);
+        }
+
+        return Response.ok("Chat Information", data);
+    }
 
 
 

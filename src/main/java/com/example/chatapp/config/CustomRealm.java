@@ -18,16 +18,7 @@ public class CustomRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-       /* UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
-        String username = usernamePasswordToken.getUsername();
-        String password = new String(usernamePasswordToken.getPassword());
 
-        User user = userService.getUserByUsername(username);
-        if (user == null) {
-            return null;
-        }
-
-        return new SimpleAuthenticationInfo(username, user.getPassword(), getName());*/
         JwtToken jwtToken = (JwtToken) token;
         String tokenValue = (String) jwtToken.getPrincipal();
 

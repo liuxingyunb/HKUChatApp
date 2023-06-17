@@ -47,14 +47,14 @@ public class LoginController {
         if(code=="")
             return Response.error("Need Email verification!");
         if(userService.getUserByUsername(user.getUsername())==null) {
-            if (code != null && code.equals(verificationCodeMap.get(user.getUsername()))) {
+            //if (code != null && code.equals(verificationCodeMap.get(user.getUsername()))) {
                 // 验证码匹配成功且未过期，更新用户的邮箱验证状态为已验证
                 userService.addUser(user);
                 return Response.ok("Register successfully!", user);
-            } else {
-                return Response.error("Invalid verification code!");
-            }
-           // return Response.ok("Register successfully!", user);
+           // } else {
+           //     return Response.error("Invalid verification code!");
+           // }
+
         }
         else
             return Response.error("User name has been registered!");
@@ -74,53 +74,14 @@ public class LoginController {
             int[] ids=userService.selectFriendId(myuser.getId());
 
             JSONObject data = new JSONObject();
-            data.put("Login_User", myuser);
-            data.put("Token", jwtToken);
-            for(int i=0;i<ids.length;i++){
-                data.put(userService.getUserById(ids[i]).getUsername() ,personal_chatService.showHistory(myuser.getId(),ids[i]));
-            }
+            data.put("user", myuser);
+            data.put("token", jwtToken);
 
             return Response.ok("Login successfully!", data);
         }
         else
             return Response.error("Wrong password");
     }
-
- /* @ApiOperation(value = "login")
-  @PostMapping("/go")
-  public Response go(@RequestBody User requestUser){
-      String username = requestUser.getUsername();
-      String password = requestUser.getPassword();
-
-      try {
-          // 创建UsernamePasswordToken对象，用于传递用户名和密码
-          UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-
-          // 调用Subject的login方法进行登录
-          Subject subject = SecurityUtils.getSubject();
-          subject.login(token);
-
-          // 登录成功，可以根据需要执行其他操作，例如返回用户信息等
-          String token_username = token.getUsername();
-          User user = userService.getUserByUsername(token_username);
-
-          // 登录成功，生成JWT令牌
-          String jwtToken = JwtUtils.generateToken(user.getId(),user.getUsername());
-
-          List<User> list = new ArrayList<>();
-          list.add(user);
-          if(userService.selectFriends(user.getId()) != null)
-              list.addAll(userService.selectFriends(user.getId()));
-
-          return Response.ok("Login successfully!", jwtToken);
-      } catch (UnknownAccountException e) {
-          return Response.error("No such user!");
-      } catch (IncorrectCredentialsException e) {
-          return Response.error("Wrong password");
-      } catch (AuthenticationException e) {
-          return Response.error("Authentication failed");
-      }
-  }*/
 
     @ApiOperation(value = "Send verification code")
     @PostMapping("/send-verifyemail")
