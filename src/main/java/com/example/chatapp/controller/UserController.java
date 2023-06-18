@@ -89,10 +89,10 @@ public class UserController {
 
         for(int i=0;i<ids.length;i++){
             JSONObject userInfo = new JSONObject();
-            userInfo.put("username",userService.getUserById(ids[i]).getUsername());
-            userInfo.put("userid",userService.getUserById(ids[i]).getId());
-            userInfo.put("avatar_url", userService.getUserById(ids[i]).getAvatar_url());
-            userInfo.put("message",personal_chatService.showHistory(user.getId(),ids[i]));
+            userInfo.put("otherUserName",userService.getUserById(ids[i]).getUsername());
+            userInfo.put("otherUserId",userService.getUserById(ids[i]).getId());
+            userInfo.put("otherAvatarUrl", userService.getUserById(ids[i]).getAvatar_url());
+            userInfo.put("messages",personal_chatService.showHistory(user.getId(),ids[i]));
 
             data.add(userInfo);
         }
