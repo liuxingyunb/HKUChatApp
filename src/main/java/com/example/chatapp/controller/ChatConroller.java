@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,8 +28,8 @@ public class ChatConroller {
     private UserService userService;
     @ApiOperation(value = "recommend persons to user")
     @PostMapping("/add")
-    public Response recommendPerson(@RequestBody User user) {
-        List<User> users = chatService.recommendPersonal(user.getId(),3);
+    public Response recommendPerson(@RequestParam int userId) {
+        List<User> users = chatService.recommendPersonal(userId,3);
         return Response.ok("ok",users);
     }
 

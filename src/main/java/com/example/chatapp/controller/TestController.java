@@ -45,6 +45,8 @@ public class TestController {
     private Photo_wallService photo_wallService;
     @Autowired
     private ChatGPTService chatGPTService;
+    @Autowired
+    private ChatService chatService;
     @PostMapping("/pin")
     public Response pin(@RequestBody User user) {
         userService.addUser(user);
@@ -169,5 +171,10 @@ public class TestController {
     @PostMapping("/getResult")
     public Response getResult(@RequestParam String question) {
         return Response.ok("answer:", chatGPTService.computeQuestion(question));
+    }
+    @PostMapping("/addPerson")
+    public Response addPerson(@RequestParam int userId) {
+        List<User> users = chatService.recommendPersonal(userId,3);
+        return Response.ok("ok",users);
     }
 }

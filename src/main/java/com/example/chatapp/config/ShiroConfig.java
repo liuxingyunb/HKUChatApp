@@ -89,13 +89,12 @@ public class ShiroConfig {
     public Map<String, String> filterChainDefinitionMap() {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         filterChainDefinitionMap.put("/login/**", "anon"); // Allow access to login endpoints
-        filterChainDefinitionMap.put("/test/**", "anon");
 
         // 放行Swagger相关的URL路径
         filterChainDefinitionMap.put("/swagger-ui/index.html#", "anon");
         filterChainDefinitionMap.put("/swagger-ui/**", "anon");
         filterChainDefinitionMap.put("/v3/api-docs", "anon");
-        //filterChainDefinitionMap.put("/**/**", "anon");
+        filterChainDefinitionMap.put("/**/**", "anon");
 
         filterChainDefinitionMap.put("/**", "jwt"); // Apply JWT filter to other endpoints
         return filterChainDefinitionMap;
