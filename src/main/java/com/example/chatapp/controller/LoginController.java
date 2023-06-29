@@ -47,13 +47,13 @@ public class LoginController {
         if(code=="")
             return Response.error("Need Email verification!");
         if(userService.getUserByUsername(user.getUsername())==null) {
-            //if (code != null && code.equals(verificationCodeMap.get(user.getUsername()))) {
+            if (code != null && code.equals(verificationCodeMap.get(user.getUsername()))) {
                 // 验证码匹配成功且未过期，更新用户的邮箱验证状态为已验证
                 userService.addUser(user);
                 return Response.ok("Register successfully!", user);
-           // } else {
-           //     return Response.error("Invalid verification code!");
-           // }
+            }else {
+               return Response.error("Invalid verification code!");
+            }
 
         }
         else
@@ -100,7 +100,7 @@ public class LoginController {
 
     @ApiOperation(value = "find password")
     @PostMapping("/find-password")
-    public Response findPassword(@RequestParam("username") String username, @RequestParam("email") String email){
+    public Response findPassword(@RequestParam("username") String username, @RequestParam("mail") String email){
         if(userService.getUserByUsername(username)==null)
             return Response.error("No such user!");
         if(!userService.getUserByUsername(username).getMail().equals(email))

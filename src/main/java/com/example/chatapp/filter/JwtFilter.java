@@ -23,6 +23,9 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         String token = extractTokenFromRequest(httpServletRequest);
         //if(1==1)return true; //测试用，生产环境需要删除
         if (isPermittedRequest(httpServletRequest)) {
+            System.out.println("Request URL: " + httpServletRequest.getRequestURL());
+            System.out.println("HTTP Method: " + httpServletRequest.getMethod());
+            System.out.println("Token: " + httpServletRequest.getHeader("Authorization"));
             return true;
         }
 
@@ -35,6 +38,10 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
                 return false;// token为空且不是放行端口
         } catch (AuthenticationException e) {
             return false; // 身份验证失败，拒绝访问
+        }finally {
+            System.out.println("Request URL: " + httpServletRequest.getRequestURL());
+            System.out.println("HTTP Method: " + httpServletRequest.getMethod());
+            System.out.println("Token: " + httpServletRequest.getHeader("Authorization"));
         }
     }
 

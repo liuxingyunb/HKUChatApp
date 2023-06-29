@@ -24,11 +24,10 @@ public class MultiFile {
                 }
             }
         }
-        String tmp="../FileStorage/"+String.valueOf(count)+"_"+filename;
+        String tmp="../FileStorage/"+filename;
         fileStore(tmp,data);
         String path = new File(tmp).getAbsolutePath();
         nameToPath.put(filename,path);
-        nameToPath.put(path,path);
         return path;
     }
     public static void fileStore(String path,byte[] data) throws IOException {
@@ -38,9 +37,10 @@ public class MultiFile {
         outputStream.close();
     }
 
-    public static boolean fileGet(String path, HttpServletResponse response) {
+    public static boolean fileGet(String name, HttpServletResponse response) {
         try {
-            String filename = path.split("/")[path.split("/").length-1];
+            String path = "../FileStorage/"+name;
+            String filename = name;
             response.addHeader("Content-Disposition", "attachment;fileName=" + filename);
             OutputStream output = response.getOutputStream();
             BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(path));
@@ -61,7 +61,8 @@ public class MultiFile {
 
     public static boolean fileDelete(String name) {
            String path = nameToPath.get(name);
-           nameToPath.remove(name);
+           if(path != null) nameToPath.remove(name);
+           else path="../FileStorage/"+name;
            File file = new File(path);
            if(file.exists()) {
                return file.delete();

@@ -85,8 +85,10 @@ public class UserController {
 
         int[] ids=userService.selectFriendId(user.getId());
 
-        JSONArray data = new JSONArray();
+        if(ids==null||ids.length==0)
+            return Response.ok("Chat Information", null);
 
+        JSONArray data = new JSONArray();
         for(int i=0;i<ids.length;i++){
             JSONObject userInfo = new JSONObject();
             userInfo.put("otherUserName",userService.getUserById(ids[i]).getUsername());
