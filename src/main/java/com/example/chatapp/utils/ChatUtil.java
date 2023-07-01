@@ -30,6 +30,7 @@ public class ChatUtil {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
+                System.out.println(sizeMap.size());
                 if(sizeMap != null) {//
                     for(HashSet<Integer> set:sizeMap.keySet()) {
                         Iterator<Integer> it = set.iterator();
