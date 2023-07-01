@@ -17,14 +17,20 @@ import java.util.List;
 @RestController
 @RequestMapping("/countdown")
 public class TimeController {
+
     @ApiOperation(value = "get the countdown minutes between two users")
     @PostMapping("/get")
     public Response timeget(@RequestParam String userId1,@RequestParam String userId2) {//return minutes
         HashSet<Integer> set = new HashSet<>();
         set.add(Integer.parseInt(userId1));set.add(Integer.parseInt(userId2));
         Integer time = ChatUtil.sizeMap.get(set);
-        System.out.println("countdown"+time);
         if(time == null)return Response.error("No chat content between the users.");
         return Response.ok(userId1+" "+userId2,String.valueOf(time));
+    }
+
+    @ApiOperation(value = "get the threshold")
+    @PostMapping("/limit")
+    public Response thresholdget() {//return minutes
+        return Response.ok(String.valueOf(ChatUtil.timeThreshold));
     }
 }

@@ -7,14 +7,18 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.ComponentScan;
 
+import javax.annotation.PostConstruct;
+
 @SpringBootApplication
 @ComponentScan("com.example.chatapp.*")
 @ServletComponentScan("com.example.chatapp.*")
 public class ChatAppApplication {
 
     public static void main(String[] args) {
-        ChatUtil.startChatStatisticsTask();
         SpringApplication.run(ChatAppApplication.class, args);
     }
-
+    @PostConstruct
+    public void init() {
+        ChatUtil.startChatStatisticsTask();
+    }
 }

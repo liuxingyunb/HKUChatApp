@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 @Component
 public class ChatUtil {
 
+    public static int timeThreshold = 10000;
 
     static UserService userService;
 
@@ -22,7 +23,6 @@ public class ChatUtil {
     public void setUserService(UserService userService) {
         ChatUtil.userService = userService;
     }
-    public  static ConcurrentHashMap<HashSet<Integer>,Integer> minuteMap = new ConcurrentHashMap<>();//聊天双方及时间
     public  static ConcurrentHashMap<HashSet<Integer>,Integer> sizeMap = new ConcurrentHashMap<>();//聊天双方及长度（单位）,每个长度1分钟
 
     public  static void startChatStatisticsTask() {
@@ -36,18 +36,15 @@ public class ChatUtil {
                         Integer userId1 = it.next();Integer userId2 = it.next();
                         List<Integer> list = userService.selectFriends(userId1).stream().map(User::getId).collect(Collectors.toList());
                         if(!list.contains(userId2)) {
-//                            if(minuteMap.containsKey(set))minuteMap.remove(set);
-                            if(sizeMap.containsKey(set))sizeMap.remove(set);
-                            continue;}
-//                        int size = sizeMap.get(set);
-//                        minuteMap.put(set,size);
-//                        sizeMap.put(set,0);//重置
+                            if(sizeMap.containsKey(set))sizeMap.remove(set);continue;}
+                        sizeMap.put(set,sizeMap.get(set)-100);it = set.iterator();
+                        System.out.println(it.next()+" "+it.next()+" "+sizeMap.get(set));
                     }
                 }
             }
         };
         long delay = 0;  // 延迟0毫秒，表示立即执行第一次任务
-        long period = 10 * 60 * 1000;  // 十分钟的毫秒数
+        long period = 24*60 * 60 * 1000;  // 1 day的毫秒数
         timer.schedule(task, delay, period);
     }
 }

@@ -64,12 +64,13 @@ public class Server {//autowired失效
         this.userId = id;
         this.session = session;
         Server server = WEBSOCKET_MAP.get(id);
-        System.out.println(id +" connecting");
+//        System.out.println(id +" connecting");
         if (server == null) {
             WEBSOCKET_MAP.put(id,this);
         } else {
-            System.out.println("multiple!!!!!");
-            session.close();
+//            System.out.println("multiple!!!!!");
+            WEBSOCKET_MAP.put(id,this);
+//            session.close();
         }
 
     }
@@ -78,6 +79,7 @@ public class Server {//autowired失效
     public void onMessage(String tmp) {//缺少聊天记录统计及倒计时激励
         //发送多媒体文件，也发text即文件附属信息（发文件的时候前端起个全局独一无二的名字）,文件存储获取走controller逻辑
         //多媒体超大型文件存储在本地，路径地址存储在content里
+        System.out.println(tmp);
         Message cur = JSON.parseObject(tmp, Message.class);
         Integer fromUserId = cur.getFromId();
         Integer toUserId = cur.getToId();
@@ -91,8 +93,8 @@ public class Server {//autowired失效
         }
         HashSet<Integer> set = new HashSet<>();set.add(fromUserId);set.add(toUserId);
         if(ChatUtil.sizeMap.containsKey(set)){int sizeTmp = ChatUtil.sizeMap.get(set);ChatUtil.sizeMap.put(set,sizeTmp+timeSize);}
-        else {ChatUtil.sizeMap.put(set,timeSize);}
-
+        else {ChatUtil.sizeMap.put(set,timeSize+100);}
+        if(cur.getType()=="system") return;
         Date date = new Date();//核心逻辑
             if(cur.getIsGroup()==1) {
                 Group_chat tmpGroupChat = new Group_chat(cur.getFromId(),cur.getToId(),cur.getType(),cur.getContent(),date);
