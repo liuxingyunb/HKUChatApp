@@ -30,6 +30,8 @@ import java.util.stream.Collectors;
 public class Server {//autowired失效
 
 
+//    public static Session serverSession;
+
     public static Personal_chatService personal_chatService;
 
     public static Group_chatService group_chatService;
@@ -38,9 +40,9 @@ public class Server {//autowired失效
 
     public static ConcurrentHashMap<String, Server> WEBSOCKET_MAP = new ConcurrentHashMap<>();//存放所有用户
 
-    private Session session;//当前session
+    public Session session;//当前session
 
-    private String userId;//当前用户
+    public String userId;//当前用户
 
     @Autowired
     public void setPersonal_chatService(Personal_chatService personal_chatService) {
@@ -60,6 +62,8 @@ public class Server {//autowired失效
 
     @OnOpen
     public void OnOpen(Session session, @PathParam("id") String id) throws Exception{
+
+//        if(id.equals("0")) serverSession = session;
 
         this.userId = id;
         this.session = session;

@@ -33,4 +33,6 @@ public class TimeController {
     public Response thresholdget() {//return minutes
         return Response.ok(String.valueOf(ChatUtil.timeThreshold));
     }
+
+
 }

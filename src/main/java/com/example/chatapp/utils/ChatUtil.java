@@ -1,23 +1,31 @@
 package com.example.chatapp.utils;
 
+import com.alibaba.fastjson2.JSON;
 import com.example.chatapp.model.po.User;
+import com.example.chatapp.model.vo.Message;
 import com.example.chatapp.service.Personal_chatService;
 import com.example.chatapp.service.UserService;
 import com.example.chatapp.websocket.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.WebSocketSession;
 
 import javax.management.timer.TimerMBean;
+import javax.websocket.Session;
+import javax.websocket.WebSocketContainer;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 @Component
 public class ChatUtil {
 
+
     public static int timeThreshold = 10000;
 
+    public static ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
     static UserService userService;
+
 
     @Autowired
     public void setUserService(UserService userService) {
@@ -31,6 +39,9 @@ public class ChatUtil {
             @Override
             public void run() {
                 System.out.println(sizeMap.size());
+                Message message = new Message();
+                message.setType("system");
+                message.setContent("update the types of friends");
                 if(sizeMap != null) {//
                     for(HashSet<Integer> set:sizeMap.keySet()) {
                         Iterator<Integer> it = set.iterator();
@@ -40,12 +51,23 @@ public class ChatUtil {
                             if(sizeMap.containsKey(set))sizeMap.remove(set);continue;}
                         sizeMap.put(set,sizeMap.get(set)-100);it = set.iterator();
                         System.out.println(it.next()+" "+it.next()+" "+sizeMap.get(set));
+                        it = set.iterator();
+                        Server server1 = Server.WEBSOCKET_MAP.get(it.next());
+                        Server server2 = Server.WEBSOCKET_MAP.get(it.next());
+                        server1.session.getAsyncRemote().sendText(JSON.toJSONString(message));
+                        server2.session.getAsyncRemote().sendText(JSON.toJSONString(message));
+
                     }
                 }
             }
         };
         long delay = 0;  // 延迟0毫秒，表示立即执行第一次任务
-        long period = 24*60 * 60 * 1000;  // 1 day的毫秒数
-        timer.schedule(task, delay, period);
+        long period = 24*60;  // 1 day的分钟数
+        executor.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                task.run();
+            }
+        },delay, period, TimeUnit.MINUTES);
     }
 }
