@@ -13,6 +13,8 @@ public class Message {
     Integer isLast;//0,1仅发送大文件时用于标识
     byte[] data;//仅发送大文件时有用
     String content;//仅发送
+    String sender_avatar_url;
+    String sender_name;
     String timeStamp;//由server端计时
 
     public String getId() {
