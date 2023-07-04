@@ -14,9 +14,9 @@ import java.util.*;
 
 //前端每隔十分钟向后端请求最新倒计时增量，后端每隔十分钟向前端发送两个userid的倒计时增量，每次前端请求完就将相应的倒计时增量值重置避免重复相加。
 //@ComponentScan("com.example.chatapp.*")
-@Api(tags = "Count down")
+@Api(tags = "score")
 @RestController
-@RequestMapping("/countdown")
+@RequestMapping("/score")
 public class TimeController {
 
     @ApiOperation(value = "get the score between two users")
@@ -30,7 +30,7 @@ public class TimeController {
     }
 
     @ApiOperation(value = "get the scores of a user")
-    @PostMapping("/get")
+    @PostMapping("/getlist")
     public Response timesget(@RequestParam String userId) {//return minutes
         Set<HashSet<Integer>> set = ChatUtil.sizeMap.keySet();
         List<Score> list = new LinkedList<>();
