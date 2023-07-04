@@ -1,12 +1,15 @@
 package com.example.chatapp.controller;
 
 
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.example.chatapp.dao.Chat_groupDao;
 import com.example.chatapp.dao.UserDao;
 import com.example.chatapp.model.po.*;
 import com.example.chatapp.model.vo.Response;
 import com.example.chatapp.service.*;
 import com.example.chatapp.utilize.MybatisUtilize;
+import io.swagger.annotations.ApiOperation;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.junit.Test;
@@ -183,5 +186,30 @@ public class TestController {
         User user = chatService.recommendPersonal_tag(userId);
         return Response.ok("ok",user);
     }
+    @ApiOperation(value = "Update chat information")
+    @PostMapping("/getChatInfoByPageTest")
+    public Response getChatInfoByPageTest(@RequestParam("id") int userId,@RequestParam("offset") int offsize, @RequestParam("pageSize") int pageSize){
+        User user=userService.getUserById(userId);
 
+        int[] ids=userService.selectFriendId(user.getId());
+
+        if(ids==null||ids.length==0)
+            return Response.ok("Chat Information", null);
+
+        JSONArray data = new JSONArray();
+        for(int i=0;i<ids.length;i++){
+            JSONObject userInfo = new JSONObject();
+            userInfo.put("otherUserName",userService.getUserById(ids[i]).getUsername());
+            userInfo.put("otherUserId",userService.getUserById(ids[i]).getId());
+            userInfo.put("otherAvatarUrl", userService.getUserById(ids[i]).getAvatar_url());
+            userInfo.put("messages",personal_chatService.showHistoryByPage(user.getId(),ids[i],offsize,pageSize));
+            data.add(userInfo);
+        }
+
+        return Response.ok("Chat Information", data);
+    }
+    @PostMapping("/getFriendListByPageTest")
+    public Response getFriendListByPageTest(@RequestParam("id") int userId, @RequestParam("offset") int offset, @RequestParam("pageSize") int pageSize){
+        return Response.ok("friend list",userService.selectFriendsByPage(userId,offset,pageSize));
+    }
 }

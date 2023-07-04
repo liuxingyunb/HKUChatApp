@@ -27,4 +27,6 @@ public interface UserService {
     public void addFriendIdToUser(int userId, String friendName);
     public void removeUserIdFromUser(int id, String friendName);
     int[] selectFriendId(int id);
+
+    public List<User> selectFriendsByPage(int userId, int offset, int pageSize);
 }

@@ -176,5 +176,15 @@ public class DaoTestNew {
         sqlSession.commit();
         sqlSession.close();
     }
+    @Test
+    public void test(){
+        SqlSession sqlSession = MybatisUtilize.getSqlsession();
+        Personal_chatDao personal_chatDao = sqlSession.getMapper(Personal_chatDao.class);
+        for(int i = 10000; i < 20000; i++){
+            personal_chatDao.addPersonal_chat(new Personal_chat(String.valueOf(i),2,3,"text","我是儿子",new Date(i*1000L)));
+        }
+        sqlSession.commit();
+        sqlSession.close();
+    }
 
 }

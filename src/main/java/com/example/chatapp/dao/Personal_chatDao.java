@@ -17,4 +17,6 @@ public interface Personal_chatDao {
     Personal_chat selectPersonal_chatsById(int id);
     public void updatePersonal_chat(Map<String, Object> map);
     List<Personal_chat> getChatMessages(@Param("senderId") int senderId, @Param("receiverId") int receiverId);
+    List<Personal_chat> getChatMessagesByPage(@Param("senderId") int senderId, @Param("receiverId") int receiverId, @Param("offset") int offset, @Param("pageSize") int pageSize);
+
 }

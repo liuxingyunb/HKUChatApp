@@ -12,4 +12,5 @@ public interface Personal_chatService {
     void deletePersonal_chat(int id);
 
     List<Personal_chat> showHistory(int senderId, int receiverId);
+    List<Personal_chat> showHistoryByPage(int senderId, int receiverId, int offset, int pageSize);
 }

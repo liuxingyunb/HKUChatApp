@@ -231,5 +231,20 @@ public class UserServiceImpl implements UserService {
 
         return friends;
     }
+    public List<User> selectFriendsByPage(int id, int offset, int pageSize){
+        String members = userDao.selectUserById(id).getMembers();
+        if(members==null||members.equals(""))
+            return null;
+        members = members.replaceAll(";$", "");
+        String[] names = members.split(";");
+        List<User> friendList = new LinkedList<>();
+        for (String name : names){
+            friendList.add(userDao.selectUserById(Integer.parseInt(name)));
+        }
+        int startIndex = offset * pageSize;
+        int endIndex = (offset + 1) * pageSize;
+        endIndex = Math.min(endIndex, friendList.size());
+        return friendList.subList(startIndex, endIndex);
+    }
 }
 

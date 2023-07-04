@@ -72,6 +72,11 @@ public class UserController {
     public Response getFriendList(@RequestParam("id") int userId){
         return Response.ok("friend list",userService.selectFriends(userId));
     }
+    @ApiOperation(value = "return friend list")
+    @PostMapping("/getFriendListByPage")
+    public Response getFriendListByPage(@RequestParam("id") int userId, @RequestParam("offset") int offset, @RequestParam("pageSize") int pageSize){
+        return Response.ok("friend list",userService.selectFriendsByPage(userId,offset,pageSize));
+    }
     @ApiOperation(value = "return user info")
     @PostMapping("/getUserInfo")
     public Response getUserInfo(@RequestParam("id") int userId){
@@ -96,6 +101,28 @@ public class UserController {
             userInfo.put("otherAvatarUrl", userService.getUserById(ids[i]).getAvatar_url());
             userInfo.put("messages",personal_chatService.showHistory(user.getId(),ids[i]));
 
+            data.add(userInfo);
+        }
+
+        return Response.ok("Chat Information", data);
+    }
+    @ApiOperation(value = "Update chat information")
+    @PostMapping("/getChatInfoByPage")
+    public Response getChatInfoByPage(@RequestParam("id") int userId,@RequestParam("offsize") int offsize, @RequestParam("pageSize") int pageSize){
+        User user=userService.getUserById(userId);
+
+        int[] ids=userService.selectFriendId(user.getId());
+
+        if(ids==null||ids.length==0)
+            return Response.ok("Chat Information", null);
+
+        JSONArray data = new JSONArray();
+        for(int i=0;i<ids.length;i++){
+            JSONObject userInfo = new JSONObject();
+            userInfo.put("otherUserName",userService.getUserById(ids[i]).getUsername());
+            userInfo.put("otherUserId",userService.getUserById(ids[i]).getId());
+            userInfo.put("otherAvatarUrl", userService.getUserById(ids[i]).getAvatar_url());
+            userInfo.put("messages",personal_chatService.showHistoryByPage(user.getId(),ids[i],offsize,pageSize));
             data.add(userInfo);
         }
 

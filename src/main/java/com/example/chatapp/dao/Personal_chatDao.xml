@@ -18,5 +18,12 @@
         WHERE (sender_id = #{senderId} AND receiver_id = #{receiverId})
         OR (sender_id = #{receiverId} AND receiver_id = #{senderId})
     </select>
+    <select id="getChatMessagesByPage" resultType="com.example.chatapp.model.po.Personal_chat">
+        SELECT *
+        FROM personal_chat
+        WHERE (sender_id = #{senderId} AND receiver_id = #{receiverId})
+        OR (sender_id = #{receiverId} AND receiver_id = #{senderId})
+        limit #{offset}, #{pageSize}
+    </select>
 
 </mapper>

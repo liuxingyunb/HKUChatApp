@@ -2,7 +2,7 @@ package com.example.chatapp.model.po;
 
 import java.util.Date;
 
-public class Group_chat {
+public class Group_chat{
     int id;
     int sender_id;
     int group_id;

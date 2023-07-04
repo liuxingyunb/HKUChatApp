@@ -39,4 +39,9 @@ public class Personal_chatServiceImpl implements Personal_chatService {
         return personal_chatDao.getChatMessages(senderId,receiverId);
 
     }
+
+    @Override
+    public List<Personal_chat> showHistoryByPage(int senderId, int receiverId, int offset, int pageSize) {
+        return personal_chatDao.getChatMessagesByPage(senderId,receiverId,offset,pageSize);
+    }
 }
