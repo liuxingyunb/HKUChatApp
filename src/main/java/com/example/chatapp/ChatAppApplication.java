@@ -18,7 +18,7 @@ public class ChatAppApplication {
         SpringApplication.run(ChatAppApplication.class, args);
     }
     @PostConstruct
-    public void init() {
+    public void init() throws Exception{
         ChatUtil.startChatStatisticsTask();
     }
 }

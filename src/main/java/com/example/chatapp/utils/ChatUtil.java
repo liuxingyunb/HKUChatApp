@@ -13,6 +13,7 @@ import org.springframework.web.socket.WebSocketSession;
 import javax.management.timer.TimerMBean;
 import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
+import java.io.FileWriter;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
@@ -33,7 +34,8 @@ public class ChatUtil {
     }
     public  static ConcurrentHashMap<HashSet<Integer>,Integer> sizeMap = new ConcurrentHashMap<>();//聊天双方及长度（单位）,每个长度1分钟
 
-    public  static void startChatStatisticsTask() {
+    public  static void startChatStatisticsTask() throws Exception{
+        FileWriter writer = new FileWriter("score.txt");
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
             @Override
@@ -57,6 +59,12 @@ public class ChatUtil {
                         server1.session.getAsyncRemote().sendText(JSON.toJSONString(message));
                         server2.session.getAsyncRemote().sendText(JSON.toJSONString(message));
 
+                    }
+                    try{
+                    String tmp = JSON.toJSONString(sizeMap);
+                    writer.write(tmp);writer.flush();writer.close();}
+                    catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }
