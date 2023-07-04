@@ -58,7 +58,6 @@ public class ChatServiceImpl implements ChatService {
          for(User user: tmplist){
             if(user != null){matchedUsers.add(user.getId());System.out.println(user.getId());}
         }}
-        System.out.println("sguidgaushuiahcuixahiduhasauidxioadguiadjioajsido");
          if(matchedUsers != null) {
              Set<Integer> ansIndex = new HashSet<>();
              matchedUsers.add(userId);
@@ -75,8 +74,6 @@ public class ChatServiceImpl implements ChatService {
                     System.out.println(list.get(i).getId());
                 }
              }
-             System.out.println("sguidgaushuiahcuixahiduhasauidxioadguiadjioajsido");
-
          } else {
              map.put(userId,new HashSet<>());
              Set<Integer> ansIndex = new HashSet<>();
