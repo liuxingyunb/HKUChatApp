@@ -32,8 +32,8 @@ public class FileController {
 
     @ApiOperation(value = "Receive file")
     @PostMapping("/get")
-    public Response fileAccept(@RequestParam("data") MultipartFile file,@RequestParam("name") String name) throws Exception{
-        String path = MultiFile.fileStore(file.getBytes(),name);
+    public Response fileAccept(@RequestParam("data") MultipartFile file) throws Exception{
+        String path = MultiFile.fileStore(file.getBytes(),file.getOriginalFilename());
         return Response.ok(path);//返回文件路径
     }
 
