@@ -9,6 +9,7 @@ import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class JwtFilter extends BasicHttpAuthenticationFilter {
 
@@ -18,7 +19,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-
+        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         // 从请求头中获取 JWT Token
         String token = extractTokenFromRequest(httpServletRequest);
         //if(1==1)return true; //测试用，生产环境需要删除
@@ -26,6 +27,10 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
             System.out.println("Request URL: " + httpServletRequest.getRequestURL());
             System.out.println("HTTP Method: " + httpServletRequest.getMethod());
             System.out.println("Token: " + httpServletRequest.getHeader("Authorization"));
+            System.out.println("Response status: "+httpServletResponse.getStatus());
+            System.out.println("Response header: "+httpServletResponse.getHeaderNames());
+            System.out.println("Response TrailerFields: "+httpServletResponse.getTrailerFields());
+
             return true;
         }
 
@@ -42,6 +47,9 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
             System.out.println("Request URL: " + httpServletRequest.getRequestURL());
             System.out.println("HTTP Method: " + httpServletRequest.getMethod());
             System.out.println("Token: " + httpServletRequest.getHeader("Authorization"));
+            System.out.println("Response status: "+httpServletResponse.getStatus());
+            System.out.println("Response header: "+httpServletResponse.getHeaderNames());
+            System.out.println("Response TrailerFields: "+httpServletResponse.getTrailerFields());
         }
     }
 

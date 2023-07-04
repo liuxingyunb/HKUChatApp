@@ -28,8 +28,8 @@ public class ChatConroller {
     private UserService userService;
     @ApiOperation(value = "recommend persons to user")
     @PostMapping("/add")
-    public Response recommendPerson(@RequestParam int userId) {
-        List<User> users = chatService.recommendPersonal(userId,3);
+    public Response recommendPerson(@RequestParam int id) {
+        List<User> users = chatService.recommendPersonal(id,3);
         return Response.ok("ok",users);
     }
 
