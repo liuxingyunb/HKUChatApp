@@ -52,7 +52,7 @@ public class TimeController {
     @ApiOperation(value = "get the threshold")
     @PostMapping("/limit")
     public Response thresholdget() {//return minutes
-        return Response.ok(String.valueOf(ChatUtil.timeThreshold));
+        return Response.ok("limit",String.valueOf(ChatUtil.timeThreshold));
     }
 
 
