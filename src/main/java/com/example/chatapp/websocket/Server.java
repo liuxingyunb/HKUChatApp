@@ -98,7 +98,7 @@ public class Server {//autowired失效
         HashSet<Integer> set = new HashSet<>();set.add(fromUserId);set.add(toUserId);
         if(ChatUtil.sizeMap.containsKey(set)){int sizeTmp = ChatUtil.sizeMap.get(set);ChatUtil.sizeMap.put(set,sizeTmp+timeSize);}
         else {ChatUtil.sizeMap.put(set,timeSize+100);}
-        if(cur.getType()=="system") return;
+        if(cur.getType().equals("system")) return;
         Date date = new Date();//核心逻辑
             if(cur.getIsGroup()==1) {
                 Group_chat tmpGroupChat = new Group_chat(cur.getFromId(),cur.getToId(),cur.getType(),cur.getContent(),date);
@@ -122,8 +122,11 @@ public class Server {//autowired失效
             } else {
                 Personal_chat tmpPersonalChat = new Personal_chat(cur.getId(),cur.getFromId(),cur.getToId(),cur.getType(),cur.getContent(),date);
                 personal_chatService.addPersonal_chat(tmpPersonalChat);
-                Future<Void> tmpf = sendText(String.valueOf(toUserId),cur);
-                while(!tmpf.isDone());
+
+                if(WEBSOCKET_MAP.get(String.valueOf(toUserId))!=null){
+                    Future<Void> tmpf = sendText(String.valueOf(toUserId),cur);
+                    while(!tmpf.isDone());
+                }
                 Future<Void> tmpr = sendText(String.valueOf(fromUserId),cur);
                 while(!tmpr.isDone());
                 System.out.println("success");

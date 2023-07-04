@@ -177,4 +177,11 @@ public class TestController {
         List<User> users = chatService.recommendPersonal(userId,3);
         return Response.ok("ok",users);
     }
+
+    @PostMapping("/tag")
+    public Response recommendtag(@RequestParam int userId) {
+        User user = chatService.recommendPersonal_tag(userId);
+        return Response.ok("ok",user);
+    }
+
 }

@@ -7,10 +7,8 @@ import com.example.chatapp.service.Chat_groupService;
 import com.example.chatapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.socket.server.HandshakeHandler;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class ChatServiceImpl implements ChatService {
@@ -97,6 +95,56 @@ public class ChatServiceImpl implements ChatService {
              userService.addFriendIdToUser(user.getId(),userService.getUserById(userId).getUsername());
          }
          return ans;
+    }
+
+    @Override
+    public User recommendPersonal_tag(int userId){
+        List<User> all=userService.selectAllUsers();
+        User user=userService.getUserById(userId);
+        if(user.getRole()==null||user.getRole().equals(""))
+            return null;
+        String tags[]=user.getRole().split(";");
+        ArrayList<String> tag_list=new ArrayList<>(Arrays.asList(tags));
+
+        int[] user_friends=userService.selectFriendId(userId);
+        ArrayList<Integer> friend_list = new ArrayList<>();
+        if (user_friends != null) {
+            for (int id : user_friends) {
+                friend_list.add(id);
+            }
+        }
+
+        Comparator<int[]> comparator = new Comparator<int[]>() {
+            @Override
+            public int compare(int[] arr1, int[] arr2) {
+                return Integer.compare(arr2[1], arr1[1]);
+            }
+        };
+        PriorityQueue<int[]> maxHeap = new PriorityQueue<>(comparator);
+
+        for(User now:all){
+            if(now.getId()==userId)
+                continue;
+            if(friend_list.contains(now.getId()))
+                continue;
+            if(now.getRole()==null||now.getRole().equals(""))
+                continue;
+            int count=0;
+            ArrayList<String> now_tag=new ArrayList<>(Arrays.asList(now.getRole().split(";")));
+            for(String tag:now_tag){
+                if(tag_list.contains(tag))
+                    count++;
+            }
+
+            maxHeap.offer(new int[]{now.getId(),count});
+        }
+        if(maxHeap.isEmpty()||maxHeap.peek()[1]==0)
+            return null;
+
+        userService.addFriendIdToUser(userId,userService.getUserById(maxHeap.peek()[0]).getUsername());
+        userService.addFriendIdToUser(maxHeap.peek()[0],user.getUsername());
+
+        return userService.getUserById(maxHeap.poll()[0]);
     }
 
     @Override

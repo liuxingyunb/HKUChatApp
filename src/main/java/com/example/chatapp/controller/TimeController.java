@@ -31,16 +31,16 @@ public class TimeController {
 
     @ApiOperation(value = "get the scores of a user")
     @PostMapping("/getlist")
-    public Response timesget(@RequestParam String userId) {//return minutes
+    public Response timesget(@RequestParam String id) {//return minutes
         Set<HashSet<Integer>> set = ChatUtil.sizeMap.keySet();
         List<Score> list = new LinkedList<>();
         for(HashSet<Integer> cur:set) {
-            if(cur.contains(Integer.parseInt(userId))) {
+            if(cur.contains(Integer.parseInt(id))) {
                 Iterator<Integer> it = cur.iterator();
                 int userid1 = it.next();int userid2 = it.next();
                 Score score = new Score();
-                if(userid1 != Integer.parseInt(userId)) score.userId = userid1;
-                if(userid2 != Integer.parseInt(userId)) score.userId = userid2;
+                if(userid1 != Integer.parseInt(id)) score.userId = userid1;
+                if(userid2 != Integer.parseInt(id)) score.userId = userid2;
                 score.score = ChatUtil.sizeMap.get(cur);
                 list.add(score);
             }

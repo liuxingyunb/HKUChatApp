@@ -32,5 +32,4 @@ public class ChatConroller {
         List<User> users = chatService.recommendPersonal(id,3);
         return Response.ok("ok",users);
     }
-
 }

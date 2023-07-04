@@ -11,5 +11,6 @@ public interface ChatService {
 
     public List<Chat_group> contactGroup(int userId);
     public List<User> recommendPersonal(int userId,int num);
+    public User recommendPersonal_tag(int userId);
     public List<Chat_group> recommendGroup(int userId,int num);
 }
