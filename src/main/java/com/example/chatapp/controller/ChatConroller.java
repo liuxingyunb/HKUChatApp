@@ -32,4 +32,11 @@ public class ChatConroller {
         List<User> users = chatService.recommendPersonal(id,3);
         return Response.ok("ok",users);
     }
+
+    @ApiOperation(value = "recommend persons to user")
+    @PostMapping("/add-by-tag")
+    public Response recommendPersonByTag(@RequestParam int id){
+        User user = chatService.recommendPersonal_tag(id);
+        return Response.ok("ok",user);
+    }
 }

@@ -33,8 +33,9 @@ public class FileController {
     @ApiOperation(value = "Receive file")
     @PostMapping("/get")
     public Response fileAccept(@RequestParam("data") MultipartFile file) throws Exception{
-        String path = MultiFile.fileStore(file.getBytes(),file.getOriginalFilename());
-        return Response.ok(path);//返回文件路径
+        String name=file.getOriginalFilename();
+        String path = MultiFile.fileStore(file.getBytes(),name);
+        return Response.ok(name);//返回文件路径
     }
 
     @ApiOperation(value = "Receive avatar")
