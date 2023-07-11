@@ -6,6 +6,7 @@ import com.example.chatapp.service.Photo_wallService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -31,4 +32,10 @@ public class Photo_wallServiceImpl implements Photo_wallService {
     public void deletePhoto_wall(int id) {
         photo_wallDao.deletePhotoById(id);
     }
+
+    @Override
+    public void deletePhotoByUrl(int userid, String url){photo_wallDao.deletePhotoByUrl(userid,url);}
+
+    @Override
+    public List<String> selectPhotosByUser(int userid){ return photo_wallDao.selectPhotosByUser(userid);}
 }

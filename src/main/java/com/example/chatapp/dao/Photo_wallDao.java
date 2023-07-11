@@ -17,8 +17,12 @@ public interface Photo_wallDao {
     public void addPhoto(Photo_wall photoWall);
     @Delete("DELETE FROM photo_wall WHERE id = #{id}")
     public void deletePhotoById(int id);
+    @Delete("DELETE FROM photo_wall WHERE user_id = #{userid} AND photo_url= #{url}")
+    public void deletePhotoByUrl(int userid,String url);
     @Select("SELECT * FROM photo_wall WHERE id = #{id}")
     Photo_wall selectPhotosById(int id);
+    @Select("SELECT photo_url FROM photo_wall WHERE user_id = #{userid} ")
+    List<String> selectPhotosByUser(int userid);
     public void updatePhoto_wall(Map<String, Object> map);
 
 

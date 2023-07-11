@@ -12,6 +12,7 @@ public class Photo_wall {
     public Photo_wall(int user_id, String photo_url) {
         this.user_id = user_id;
         this.photo_url = photo_url;
+        this.create_time=new Date();
     }
 
     public int getId() {

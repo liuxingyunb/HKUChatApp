@@ -212,4 +212,17 @@ public class TestController {
     public Response getFriendListByPageTest(@RequestParam("id") int userId, @RequestParam("offset") int offset, @RequestParam("pageSize") int pageSize){
         return Response.ok("friend list",userService.selectFriendsByPage(userId,offset,pageSize));
     }
+
+    @ApiOperation(value = "Get photo")
+    @PostMapping("/get-photo")
+    public Response photoGet(@RequestParam("id") int userid){
+        return Response.ok("Photo wall",photo_wallService.selectPhotosByUser(userid));
+    }
+
+    @ApiOperation(value = "Receive photo")
+    @PostMapping("/delete-photo")
+    public Response fileDeletePhoto(@RequestParam("id")int userid,@RequestParam("url") String url) throws Exception{
+        photo_wallService.deletePhotoByUrl(userid,url);
+        return Response.ok();//返回文件路径
+    }
 }
