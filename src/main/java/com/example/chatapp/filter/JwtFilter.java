@@ -38,7 +38,11 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         try {
             if (token != null) {
                 getSubject(request, response).login(new JwtToken(token));
-                return true; // 身份验证成功，允许访问
+                if(getSubject(request, response).isAuthenticated())
+                    return true;
+                else
+                    return false;
+                //return true; // 身份验证成功，允许访问
             }else
                 return false;// token为空且不是放行端口
         } catch (AuthenticationException e) {
