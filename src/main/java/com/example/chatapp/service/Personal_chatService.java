@@ -13,4 +13,5 @@ public interface Personal_chatService {
 
     List<Personal_chat> showHistory(int senderId, int receiverId);
     List<Personal_chat> showHistoryByPage(int senderId, int receiverId, int offset, int pageSize);
+    int getChatSum(int senderId, int receiverId);
 }

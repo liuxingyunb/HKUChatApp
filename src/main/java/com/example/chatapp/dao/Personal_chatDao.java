@@ -18,5 +18,8 @@ public interface Personal_chatDao {
     public void updatePersonal_chat(Map<String, Object> map);
     List<Personal_chat> getChatMessages(@Param("senderId") int senderId, @Param("receiverId") int receiverId);
     List<Personal_chat> getChatMessagesByPage(@Param("senderId") int senderId, @Param("receiverId") int receiverId, @Param("offset") int offset, @Param("pageSize") int pageSize);
-
+    @Select("SELECT count(*) FROM personal_chat\n" +
+            "        WHERE (sender_id = #{senderId} AND receiver_id = #{receiverId})\n" +
+            "        OR (sender_id = #{receiverId} AND receiver_id = #{senderId})")
+    int getChatSum(@Param("senderId") int senderId, @Param("receiverId") int receiverId);
 }
