@@ -98,7 +98,8 @@ public class UserController {
             JSONObject userInfo = new JSONObject();
             userInfo.put("otherUserName",userService.getUserById(ids[i]).getUsername());
             userInfo.put("otherUserId",userService.getUserById(ids[i]).getId());
-            userInfo.put("otherAvatarUrl", userService.getUserById(ids[i]).getAvatar_url());
+            userInfo.put("otherUserAvatarUrl", userService.getUserById(ids[i]).getAvatar_url());
+            userInfo.put("total", personal_chatService.getChatSum(userId,ids[i]));
             userInfo.put("messages",personal_chatService.showHistory(user.getId(),ids[i]));
 
             data.add(userInfo);

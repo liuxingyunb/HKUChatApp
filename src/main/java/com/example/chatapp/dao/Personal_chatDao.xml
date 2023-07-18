@@ -17,6 +17,8 @@
         FROM personal_chat
         WHERE (sender_id = #{senderId} AND receiver_id = #{receiverId})
         OR (sender_id = #{receiverId} AND receiver_id = #{senderId})
+        ORDER BY send_time DESC
+        limit 20
     </select>
     <select id="getChatMessagesByPage" resultType="com.example.chatapp.model.po.Personal_chat">
         SELECT *

@@ -1,9 +1,11 @@
 package com.example.chatapp.controller;
 
 
+import com.example.chatapp.model.po.Photo_wall;
 import com.example.chatapp.model.po.User;
 import com.example.chatapp.model.vo.Response;
 import com.example.chatapp.service.ChatService;
+import com.example.chatapp.service.Photo_wallService;
 import com.example.chatapp.service.UserService;
 import com.example.chatapp.utils.MultiFile;
 import io.swagger.annotations.Api;
@@ -29,12 +31,16 @@ public class FileController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    Photo_wallService photoWallService;
+
 
     @ApiOperation(value = "Receive file")
     @PostMapping("/get")
     public Response fileAccept(@RequestParam("data") MultipartFile file) throws Exception{
-        String path = MultiFile.fileStore(file.getBytes(),file.getOriginalFilename());
-        return Response.ok(path);//返回文件路径
+        String name=file.getOriginalFilename();
+        String path = MultiFile.fileStore(file.getBytes(),name);
+        return Response.ok(name);//返回文件路径
     }
 
     @ApiOperation(value = "Receive avatar")
@@ -48,6 +54,7 @@ public class FileController {
         propertyValueMap.put("id",id);
         propertyValueMap.put("avatar_url", name);
         userService.updateUser(propertyValueMap);
+        System.out.println(name);
         return Response.ok(name);//返回文件路径
     }
 
@@ -63,6 +70,33 @@ public class FileController {
     public Response fileDelete(@RequestParam("name") String name) throws Exception{
         MultiFile.fileDelete(name);
         return Response.ok();
+    }
+
+    @ApiOperation(value = "Receive photo to photowall")
+    @PostMapping("/add-photo")
+    public Response fileAcceptPhoto(@RequestParam("data") MultipartFile file) throws Exception{
+        String name=file.getOriginalFilename();
+        String path = MultiFile.fileStore(file.getBytes(),name);
+        int id=Integer.parseInt(name.split("_")[0]);
+
+        String url="http://10.68.95.179:8080/file/post?name="+name;
+        Photo_wall photo=new Photo_wall(id,url);
+        photoWallService.addPhoto_wall(photo);
+
+        return Response.ok(url);//返回文件路径
+    }
+
+    @ApiOperation(value = "Delete photo")
+    @PostMapping("/delete-photo")
+    public Response fileDeletePhoto(@RequestParam("id")int userid,@RequestParam("url") String url) throws Exception{
+        photoWallService.deletePhotoByUrl(userid,url);
+        return Response.ok("Delete successfully");//返回文件路径
+    }
+
+    @ApiOperation(value = "Get photo")
+    @PostMapping("/get-photo")
+    public Response photoGet(@RequestParam("userid") int userid){
+        return Response.ok("Photo wall",photoWallService.selectPhotosByUser(userid));
     }
 
 }

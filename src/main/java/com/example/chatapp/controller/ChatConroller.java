@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //@ComponentScan("com.example.chatapp.*")
@@ -29,7 +30,20 @@ public class ChatConroller {
     @ApiOperation(value = "recommend persons to user")
     @PostMapping("/add")
     public Response recommendPerson(@RequestParam int id) {
-        List<User> users = chatService.recommendPersonal(id,3);
-        return Response.ok("ok",users);
+        List<User> user_tag=new ArrayList<>();
+        user_tag.add(chatService.recommendPersonal_tag(id));
+        if(user_tag.get(0)!=null)
+            return Response.ok("ok",user_tag);
+        else {
+            List<User> users = chatService.recommendPersonal(id, 3);
+            return Response.ok("ok", users);
+        }
+    }
+
+    @ApiOperation(value = "recommend persons to user")
+    @PostMapping("/add-by-tag")
+    public Response recommendPersonByTag(@RequestParam int id){
+        User user = chatService.recommendPersonal_tag(id);
+        return Response.ok("ok",user);
     }
 }
