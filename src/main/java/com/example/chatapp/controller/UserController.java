@@ -108,7 +108,7 @@ public class UserController {
     }
     @ApiOperation(value = "Update chat information")
     @PostMapping("/getChatInfoByPage")
-    public Response getChatInfoByPage(@RequestParam("id") int userId,@RequestParam("offsize") int offsize, @RequestParam("pageSize") int pageSize){
+    public Response getChatInfoByPage(@RequestParam("id") int userId,@RequestParam("offset") int offset, @RequestParam("pageSize") int pageSize){
         User user=userService.getUserById(userId);
 
         int[] ids=userService.selectFriendId(user.getId());
@@ -122,10 +122,18 @@ public class UserController {
             userInfo.put("otherUserName",userService.getUserById(ids[i]).getUsername());
             userInfo.put("otherUserId",userService.getUserById(ids[i]).getId());
             userInfo.put("otherAvatarUrl", userService.getUserById(ids[i]).getAvatar_url());
-            userInfo.put("messages",personal_chatService.showHistoryByPage(user.getId(),ids[i],offsize,pageSize));
+            userInfo.put("messages",personal_chatService.showHistoryByPage(user.getId(),ids[i],offset,pageSize));
             data.add(userInfo);
         }
 
+        return Response.ok("Chat Information", data);
+    }
+    @PostMapping("/getFriendChatHistoryByPage")
+    public Response getFriendChatHistoryByPage(@RequestParam("id") int id,@RequestParam("id") int friendId,@RequestParam("offset") int offset, @RequestParam("pageSize") int page){
+        JSONArray data = new JSONArray();
+        JSONObject userInfo = new JSONObject();
+        userInfo.put("messages",personal_chatService.showHistoryByPage(id,friendId,offset,page));
+        data.add(userInfo);
         return Response.ok("Chat Information", data);
     }
 

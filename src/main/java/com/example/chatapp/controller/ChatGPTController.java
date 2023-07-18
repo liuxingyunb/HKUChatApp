@@ -17,5 +17,9 @@ public class ChatGPTController {
     public Response getResult(@RequestParam String question) {
         return Response.ok("answer:", chatGPTService.computeQuestion(question));
     }
+    @PostMapping("/translate")
+    public Response translate(@RequestParam String question) {
+        return Response.ok("answer:", chatGPTService.translateQuestion(question));
+    }
 
 }

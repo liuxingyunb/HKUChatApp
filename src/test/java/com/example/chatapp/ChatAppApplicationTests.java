@@ -1,8 +1,12 @@
 package com.example.chatapp;
 
+import com.example.chatapp.controller.ChatGPTController;
+import com.example.chatapp.controller.UserController;
 import com.example.chatapp.dao.UserDao;
 import com.example.chatapp.model.po.Personal_chat;
 import com.example.chatapp.model.po.User;
+import com.example.chatapp.model.vo.Response;
+import com.example.chatapp.service.ChatGPTService;
 import com.example.chatapp.service.Personal_chatService;
 import com.example.chatapp.service.UserService;
 import com.example.chatapp.utils.MultiFile;
@@ -24,6 +28,25 @@ class ChatAppApplicationTests {
     UserService userService;
     @Autowired
     Personal_chatService personal_chatService;
+    @Autowired
+    UserController userController;
+    @Autowired
+    ChatGPTController chatGPTController;
+    @Test
+    void contextLoads() {
+        Response result = userController.getFriendChatHistoryByPage(2,3,0,1);
+        System.out.println(result.toString());
+    }
+    @Test
+    void gptResult() {
+        Response result = chatGPTController.getResult("作业好难啊我不会做啊");
+        System.out.println(result.toString());
+    }
+    @Test
+    void gptTranslate() {
+        Response result = chatGPTController.translate("you are a pig");
+        System.out.println(result.toString());
+    }
 
 
 //    @Test
