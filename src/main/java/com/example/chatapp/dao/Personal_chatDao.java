@@ -22,4 +22,6 @@ public interface Personal_chatDao {
             "        WHERE (sender_id = #{senderId} AND receiver_id = #{receiverId})\n" +
             "        OR (sender_id = #{receiverId} AND receiver_id = #{senderId})")
     int getChatSum(@Param("senderId") int senderId, @Param("receiverId") int receiverId);
+
+
 }
