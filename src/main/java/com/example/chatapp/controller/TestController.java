@@ -11,13 +11,17 @@ import com.example.chatapp.service.*;
 import com.example.chatapp.utilize.MybatisUtilize;
 import io.swagger.annotations.ApiOperation;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.logging.log4j.Logger;
 import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.junit.Test;
+import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.*;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +34,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/test")
 public class TestController {
+    private static final Logger logger = LogManager.getLogger(TestController.class);
+
 
     @Autowired
     @Lazy
@@ -175,6 +181,14 @@ public class TestController {
     public Response getResult(@RequestParam String question) {
         return Response.ok("answer:", chatGPTService.computeQuestion(question));
     }
+    @GetMapping("/result")
+    public Response getGPTResult(@RequestParam String question) {
+        return Response.ok("answer:", chatGPTService.computeQuestion(question));
+    }
+    @GetMapping("/translate")
+    public Response getTranslate(@RequestParam String question) {
+        return Response.ok("answer:", chatGPTService.translateQuestion(question));
+    }
     @PostMapping("/addPerson")
     public Response addPerson(@RequestParam int userId) {
         List<User> users = chatService.recommendPersonal(userId,3);
@@ -224,5 +238,12 @@ public class TestController {
     public Response fileDeletePhoto(@RequestParam("id")int userid,@RequestParam("url") String url) throws Exception{
         photo_wallService.deletePhotoByUrl(userid,url);
         return Response.ok();//返回文件路径
+    }
+    @PostMapping("/get")
+    public Response get(@RequestBody RequestBodyObject requestBodyObject) {
+        logger.info("请求体类型：{}", requestBodyObject.getType());
+        logger.info("请求体内容：{}", requestBodyObject.getBody());
+        if(requestBodyObject.getType().equals("translate")) return Response.ok("answer:", chatGPTService.translateQuestion(requestBodyObject.getBody()));
+        else return Response.ok("answer:", chatGPTService.computeQuestion(requestBodyObject.getBody()));
     }
 }

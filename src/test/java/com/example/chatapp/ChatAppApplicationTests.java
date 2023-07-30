@@ -34,7 +34,7 @@ class ChatAppApplicationTests {
     ChatGPTController chatGPTController;
     @Test
     void contextLoads() {
-        Response result = userController.getFriendChatHistoryByPage(2,3,0,1);
+        Response result = userController.getFriendChatHistoryByPage(2,3,0,10);
         System.out.println(result.toString());
     }
     @Test

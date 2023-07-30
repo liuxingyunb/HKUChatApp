@@ -24,4 +24,5 @@ public interface Personal_chatDao {
     int getChatSum(@Param("senderId") int senderId, @Param("receiverId") int receiverId);
 
 
+
 }

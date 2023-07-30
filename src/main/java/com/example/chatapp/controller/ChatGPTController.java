@@ -1,5 +1,6 @@
 package com.example.chatapp.controller;
 
+import com.example.chatapp.model.po.RequestBodyObject;
 import com.example.chatapp.model.po.User;
 import com.example.chatapp.model.vo.Response;
 import com.example.chatapp.service.ChatGPTService;
@@ -20,6 +21,11 @@ public class ChatGPTController {
     @PostMapping("/translate")
     public Response translate(@RequestParam String question) {
         return Response.ok("answer:", chatGPTService.translateQuestion(question));
+    }
+    @PostMapping("/get")
+    public Response get(@RequestBody RequestBodyObject requestBodyObject) {
+        if(requestBodyObject.getType().equals("translate")) return Response.ok("answer:", chatGPTService.translateQuestion(requestBodyObject.getBody()));
+        else return Response.ok("answer:", chatGPTService.computeQuestion(requestBodyObject.getBody()));
     }
 
 }
